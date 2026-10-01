@@ -24,6 +24,7 @@ export function HelpOverlay() {
   const shortcuts = [
     { key: 'Spacebar', action: 'Generate new palette (keeps locked colors)' },
     { key: '1–6', action: 'Lock / unlock a color' },
+    { key: 'P', action: 'Switch palette / preview' },
     { key: 'F', action: 'Shuffle fonts' },
     { key: 'G', action: 'Toggle gradient mode' },
     { key: 'E', action: 'Export palette as PNG' },

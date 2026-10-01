@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Shuffle, Download, Share, Sparkles } from 'lucide-react';
+import { Shuffle, Download, Share, Sparkles, Columns3, LayoutTemplate } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -7,7 +7,11 @@ import { Slider } from './ui/slider';
 import { ColorWheel } from './ColorWheel';
 import { MAX_COLORS, MIN_COLORS, normalizeHex, VIBES, VibeId } from '../utils/palette';
 
+export type View = 'palette' | 'preview';
+
 interface PaletteControlsProps {
+  view: View;
+  onViewChange: (view: View) => void;
   onGenerate: () => void;
   onDescribe: (text: string) => void;
   vibe: VibeId | null;
@@ -20,7 +24,7 @@ interface PaletteControlsProps {
   onColorCountChange: (count: number) => void;
 }
 
-export function PaletteControls({ onGenerate, onDescribe, vibe, onVibeSelect, onExport, onShare, onBaseColorSelect, selectedBaseColor, colorCount, onColorCountChange }: PaletteControlsProps) {
+export function PaletteControls({ view, onViewChange, onGenerate, onDescribe, vibe, onVibeSelect, onExport, onShare, onBaseColorSelect, selectedBaseColor, colorCount, onColorCountChange }: PaletteControlsProps) {
   return (
     <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-10">
       <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg border p-4">
@@ -35,6 +39,7 @@ export function PaletteControls({ onGenerate, onDescribe, vibe, onVibeSelect, on
           <div className="flex flex-col gap-3">
             <DescribeInput onSubmit={onDescribe} />
 
+            <div className="flex items-center justify-between gap-4">
             {/* Vibe presets */}
             <div className="flex items-center gap-1.5" role="group" aria-label="Vibe">
               <Button
@@ -58,6 +63,25 @@ export function PaletteControls({ onGenerate, onDescribe, vibe, onVibeSelect, on
                   {v.label}
                 </Button>
               ))}
+            </div>
+
+            {/* Palette / Preview switch */}
+            <div className="flex rounded-md border p-0.5" role="group" aria-label="View">
+              {([['palette', 'Palette', Columns3], ['preview', 'Preview', LayoutTemplate]] as const).map(([id, label, Icon]) => (
+                <Button
+                  key={id}
+                  size="sm"
+                  variant={view === id ? 'default' : 'ghost'}
+                  aria-pressed={view === id}
+                  onClick={() => onViewChange(id)}
+                  className="h-7 gap-1.5"
+                  title={`${label} (P)`}
+                >
+                  <Icon className="h-4 w-4" />
+                  {label}
+                </Button>
+              ))}
+            </div>
             </div>
 
             {/* Controls */}

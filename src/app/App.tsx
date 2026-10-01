@@ -6,6 +6,9 @@ import { Color, colorFromHex } from './utils/colorUtils';
 import { generatePalette, getVibe, inferVibe, lockedPrimary, mergeLocked, MAX_COLORS, MIN_COLORS, primaryColor, VibeId } from './utils/palette';
 import { getFontPair, loadFontPair, pickPair } from './utils/fonts';
 import { FontBar } from './components/FontBar';
+import { LandingPreview } from './components/LandingPreview';
+import { View } from './components/PaletteControls';
+import { assignRoles, Mode } from './utils/roles';
 import { describeToSettings } from './utils/describe';
 import { copyToClipboard } from './utils/clipboard';
 import { downloadPaletteImage } from './utils/imageExport';
@@ -25,6 +28,8 @@ export default function App() {
   const [colorCount, setColorCount] = useState(5);
   const [vibe, setVibe] = useState<VibeId | null>(null);
   const [fontPairId, setFontPairId] = useState('');
+  const [view, setView] = useState<View>('palette');
+  const [previewMode, setPreviewMode] = useState<Mode>('light');
 
   // The vibe the palette actually reads as: the chosen one, or inferred from its primary color
   const primary = primaryColor(colors);
@@ -121,6 +126,10 @@ export default function App() {
           if (event.repeat) return;
           generateNewPalette();
           break;
+        case 'KeyP':
+          event.preventDefault();
+          setView(prev => (prev === 'palette' ? 'preview' : 'palette'));
+          break;
         case 'KeyF':
           event.preventDefault();
           shuffleFonts();
@@ -211,7 +220,9 @@ export default function App() {
 
   return (
     <div className="h-screen flex flex-col bg-gray-50">
-      <PaletteControls 
+      <PaletteControls
+        view={view}
+        onViewChange={setView}
         onGenerate={generateNewPalette}
         onDescribe={handleDescribe}
         vibe={vibe}
@@ -224,17 +235,26 @@ export default function App() {
         onColorCountChange={handleColorCountChange}
       />
       
-      <div className="flex flex-1 min-h-0">
-        {colors.map((color, index) => (
-          <ColorSwatch
-            key={index}
-            color={color}
-            onToggleLock={toggleColorLock}
-            index={index}
-            isGradientMode={isGradientMode}
-          />
-        ))}
-      </div>
+      {view === 'preview' && fontPair && colors.length > 0 ? (
+        <LandingPreview
+          roles={assignRoles(colors.map(c => c.hex), previewMode)}
+          fontPair={fontPair}
+          mode={previewMode}
+          onModeChange={setPreviewMode}
+        />
+      ) : (
+        <div className="flex flex-1 min-h-0">
+          {colors.map((color, index) => (
+            <ColorSwatch
+              key={index}
+              color={color}
+              onToggleLock={toggleColorLock}
+              index={index}
+              isGradientMode={isGradientMode}
+            />
+          ))}
+        </div>
+      )}
 
       {fontPair && paletteVibe && <FontBar pair={fontPair} vibe={paletteVibe} onShuffle={shuffleFonts} />}
 
@@ -242,7 +262,7 @@ export default function App() {
       <Toaster />
 
       {/* Instructions overlay for first-time users */}
-      {colors.length > 0 && (
+      {colors.length > 0 && view === 'palette' && (
         <div className="fixed bottom-32 left-4 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg border p-4 max-w-sm">
           <p className="text-sm text-gray-600">
             Press <kbd className="px-1 py-0.5 bg-gray-100 rounded text-xs">Space</kbd> to generate, <kbd className="px-1 py-0.5 bg-gray-100 rounded text-xs">1</kbd>–<kbd className="px-1 py-0.5 bg-gray-100 rounded text-xs">{colors.length}</kbd> to lock a color
