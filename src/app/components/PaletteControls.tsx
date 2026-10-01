@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Shuffle, Download, Share } from 'lucide-react';
+import { Shuffle, Download, Share, Sparkles } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -9,6 +9,7 @@ import { MAX_COLORS, MIN_COLORS, normalizeHex, VIBES, VibeId } from '../utils/pa
 
 interface PaletteControlsProps {
   onGenerate: () => void;
+  onDescribe: (text: string) => void;
   vibe: VibeId | null;
   onVibeSelect: (vibe: VibeId | null) => void;
   onExport: () => void;
@@ -19,7 +20,7 @@ interface PaletteControlsProps {
   onColorCountChange: (count: number) => void;
 }
 
-export function PaletteControls({ onGenerate, vibe, onVibeSelect, onExport, onShare, onBaseColorSelect, selectedBaseColor, colorCount, onColorCountChange }: PaletteControlsProps) {
+export function PaletteControls({ onGenerate, onDescribe, vibe, onVibeSelect, onExport, onShare, onBaseColorSelect, selectedBaseColor, colorCount, onColorCountChange }: PaletteControlsProps) {
   return (
     <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-10">
       <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg border p-4">
@@ -32,6 +33,8 @@ export function PaletteControls({ onGenerate, vibe, onVibeSelect, onExport, onSh
           />
 
           <div className="flex flex-col gap-3">
+            <DescribeInput onSubmit={onDescribe} />
+
             {/* Vibe presets */}
             <div className="flex items-center gap-1.5" role="group" aria-label="Vibe">
               <Button
@@ -138,5 +141,34 @@ function BaseColorInput({ value, onChange }: { value: string; onChange: (hex: st
         Your brand color in hex. It stays in the palette exactly as entered.
       </span>
     </div>
+  );
+}
+
+// Plain-English starting point, e.g. "calm meditation app, sage green"
+function DescribeInput({ onSubmit }: { onSubmit: (text: string) => void }) {
+  const [text, setText] = useState('');
+
+  return (
+    <form
+      className="flex items-center gap-2"
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (text.trim()) onSubmit(text);
+      }}
+    >
+      <Label htmlFor="describe" className="sr-only">Describe your project</Label>
+      <Input
+        id="describe"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Describe your project, e.g. calm meditation app, sage green"
+        className="flex-1"
+        autoComplete="off"
+      />
+      <Button type="submit" variant="outline" className="gap-2" disabled={!text.trim()}>
+        <Sparkles className="h-4 w-4" />
+        Suggest
+      </Button>
+    </form>
   );
 }

@@ -3,7 +3,8 @@ import { ColorSwatch } from './components/ColorSwatch';
 import { PaletteControls } from './components/PaletteControls';
 import { HelpOverlay } from './components/HelpOverlay';
 import { Color, colorFromHex } from './utils/colorUtils';
-import { generatePalette, lockedPrimary, mergeLocked, MAX_COLORS, MIN_COLORS, VibeId } from './utils/palette';
+import { generatePalette, getVibe, lockedPrimary, mergeLocked, MAX_COLORS, MIN_COLORS, VibeId } from './utils/palette';
+import { describeToSettings } from './utils/describe';
 import { copyToClipboard } from './utils/clipboard';
 import { downloadPaletteImage } from './utils/imageExport';
 import { Toaster } from './components/ui/sonner';
@@ -155,6 +156,26 @@ export default function App() {
     regenerate({ vibe: newVibe });
   };
 
+  // A description is a fresh start: it replaces both the vibe and the base color
+  const handleDescribe = (text: string) => {
+    const result = describeToSettings(text);
+    if (result.matches.length === 0) {
+      toast("Couldn't find a match", {
+        description: 'Try an industry, a mood or a color, e.g. "fintech", "playful", "navy".',
+      });
+      return;
+    }
+    const newVibe = result.vibe ?? null;
+    const newBase = result.baseHex ?? '';
+    setVibe(newVibe);
+    setSelectedBaseColor(newBase);
+    regenerate({ vibe: newVibe, baseHex: newBase });
+    toast.success(
+      [newVibe && `${getVibe(newVibe).label} vibe`, newBase && `base ${newBase}`].filter(Boolean).join(' · '),
+      { description: `Matched ${result.matches.join('; ')}` },
+    );
+  };
+
   const handleColorCountChange = (newCount: number) => {
     setColorCount(newCount);
     regenerate({ count: newCount });
@@ -164,6 +185,7 @@ export default function App() {
     <div className="min-h-screen bg-gray-50">
       <PaletteControls 
         onGenerate={generateNewPalette}
+        onDescribe={handleDescribe}
         vibe={vibe}
         onVibeSelect={handleVibeSelect}
         onExport={exportPalette}

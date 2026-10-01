@@ -11,7 +11,7 @@ Palette + font picker for **startup founders and generalists with no design back
 ## Layout
 - `src/app/App.tsx` — palette state, keyboard shortcuts, URL parsing
 - `src/app/components/` — `ColorSwatch`, `PaletteControls` (top toolbar), `ColorWheel` (base color), `HelpOverlay` (`?` key)
-- `src/app/utils/` — pure logic: `palette` (vibes + OKLCH generator), `colorUtils` (Color type/conversions), `clipboard`, `imageExport` (PNG)
+- `src/app/utils/` — pure logic: `palette` (vibes + OKLCH generator, lock merging), `describe` (text → vibe/base keyword parser), `colorUtils` (Color type/conversions), `clipboard`, `imageExport` (PNG)
 - New pure logic goes in `src/app/utils/` with a sibling `*.test.ts`. Keep components thin.
 
 ## Commands
