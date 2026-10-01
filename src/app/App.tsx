@@ -3,7 +3,9 @@ import { ColorSwatch } from './components/ColorSwatch';
 import { PaletteControls } from './components/PaletteControls';
 import { HelpOverlay } from './components/HelpOverlay';
 import { Color, colorFromHex } from './utils/colorUtils';
-import { generatePalette, getVibe, lockedPrimary, mergeLocked, MAX_COLORS, MIN_COLORS, VibeId } from './utils/palette';
+import { generatePalette, getVibe, inferVibe, lockedPrimary, mergeLocked, MAX_COLORS, MIN_COLORS, primaryColor, VibeId } from './utils/palette';
+import { getFontPair, loadFontPair, pickPair } from './utils/fonts';
+import { FontBar } from './components/FontBar';
 import { describeToSettings } from './utils/describe';
 import { copyToClipboard } from './utils/clipboard';
 import { downloadPaletteImage } from './utils/imageExport';
@@ -22,6 +24,28 @@ export default function App() {
   const [selectedBaseColor, setSelectedBaseColor] = useState('');
   const [colorCount, setColorCount] = useState(5);
   const [vibe, setVibe] = useState<VibeId | null>(null);
+  const [fontPairId, setFontPairId] = useState('');
+
+  // The vibe the palette actually reads as: the chosen one, or inferred from its primary color
+  const primary = primaryColor(colors);
+  const paletteVibe: VibeId | undefined = vibe ?? (primary ? inferVibe(primary.hex) : undefined);
+  const fontPair = getFontPair(fontPairId);
+
+  // Switch fonts only when the current pairing no longer fits the palette's vibe
+  useEffect(() => {
+    if (!paletteVibe) return;
+    if (!getFontPair(fontPairId)?.vibes.includes(paletteVibe)) {
+      setFontPairId(pickPair(paletteVibe).id);
+    }
+  }, [paletteVibe]);
+
+  useEffect(() => {
+    if (fontPair) loadFontPair(fontPair);
+  }, [fontPair]);
+
+  const shuffleFonts = () => {
+    if (paletteVibe) setFontPairId(pickPair(paletteVibe, fontPairId).id);
+  };
 
   // Regenerate unlocked colors, optionally with new settings applied first
   const regenerate = useCallback((overrides: Partial<PaletteSettings> = {}) => {
@@ -97,6 +121,10 @@ export default function App() {
           if (event.repeat) return;
           generateNewPalette();
           break;
+        case 'KeyF':
+          event.preventDefault();
+          shuffleFonts();
+          break;
         case 'KeyG':
           event.preventDefault();
           setIsGradientMode(prev => !prev);
@@ -114,7 +142,7 @@ export default function App() {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [generateNewPalette, colors, isGradientMode]);
+  });
 
   const toggleColorLock = (index: number) => {
     setColors(prevColors => 
@@ -182,7 +210,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="h-screen flex flex-col bg-gray-50">
       <PaletteControls 
         onGenerate={generateNewPalette}
         onDescribe={handleDescribe}
@@ -196,7 +224,7 @@ export default function App() {
         onColorCountChange={handleColorCountChange}
       />
       
-      <div className="flex h-screen">
+      <div className="flex flex-1 min-h-0">
         {colors.map((color, index) => (
           <ColorSwatch
             key={index}
@@ -208,12 +236,14 @@ export default function App() {
         ))}
       </div>
 
+      {fontPair && paletteVibe && <FontBar pair={fontPair} vibe={paletteVibe} onShuffle={shuffleFonts} />}
+
       <HelpOverlay />
       <Toaster />
 
       {/* Instructions overlay for first-time users */}
       {colors.length > 0 && (
-        <div className="fixed bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg border p-4 max-w-sm">
+        <div className="fixed bottom-32 left-4 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg border p-4 max-w-sm">
           <p className="text-sm text-gray-600">
             Press <kbd className="px-1 py-0.5 bg-gray-100 rounded text-xs">Space</kbd> to generate, <kbd className="px-1 py-0.5 bg-gray-100 rounded text-xs">1</kbd>–<kbd className="px-1 py-0.5 bg-gray-100 rounded text-xs">{colors.length}</kbd> to lock a color
           </p>

@@ -24,6 +24,7 @@ export function HelpOverlay() {
   const shortcuts = [
     { key: 'Spacebar', action: 'Generate new palette (keeps locked colors)' },
     { key: '1–6', action: 'Lock / unlock a color' },
+    { key: 'F', action: 'Shuffle fonts' },
     { key: 'G', action: 'Toggle gradient mode' },
     { key: 'E', action: 'Export palette as PNG' },
     { key: 'S', action: 'Share palette' },
@@ -33,7 +34,7 @@ export function HelpOverlay() {
 
   if (!isVisible) {
     return (
-      <div className="fixed bottom-4 right-4 z-20">
+      <div className="fixed bottom-32 right-4 z-20">
         <Button 
           variant="outline" 
           size="sm"

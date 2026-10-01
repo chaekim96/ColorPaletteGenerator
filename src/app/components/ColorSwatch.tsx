@@ -37,7 +37,7 @@ export function ColorSwatch({ color, onToggleLock, index, isGradientMode }: Colo
 
   return (
     <div 
-      className="relative flex-1 h-full min-h-[500px] group cursor-pointer transition-all duration-200 hover:scale-[1.02]"
+      className="relative flex-1 h-full group cursor-pointer transition-all duration-200 hover:scale-[1.02]"
       style={swatchStyle}
     >
       {/* Lock button (centered so the toolbar never covers it): shown when locked, on touch, and on focus */}

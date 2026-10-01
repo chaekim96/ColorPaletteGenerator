@@ -220,10 +220,15 @@ export function generatePalette({ vibe, baseHex, count = 5, rand = Math.random }
   return SLOTS_BY_COUNT[size].map(slot => colorFromHex(make(slot)));
 }
 
-/** The locked primary color (2nd swatch in generated palettes), used to anchor regeneration. */
-export function lockedPrimary(colors: Color[]): string | undefined {
+/** The primary color: 2nd swatch in generated palettes (and a sensible guess for others). */
+export function primaryColor(colors: Color[]): Color | undefined {
   const slots = SLOTS_BY_COUNT[colors.length];
-  const color = colors[slots ? slots.indexOf('primary') : 1];
+  return colors[slots ? slots.indexOf('primary') : Math.min(1, colors.length - 1)];
+}
+
+/** The locked primary color, used to anchor regeneration. */
+export function lockedPrimary(colors: Color[]): string | undefined {
+  const color = primaryColor(colors);
   return color?.locked ? color.hex : undefined;
 }
 
