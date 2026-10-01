@@ -7,6 +7,8 @@ export function HelpOverlay() {
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.metaKey || event.ctrlKey || event.altKey) return;
+      if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) return;
       if (event.key === '?' || event.key === 'h') {
         setIsVisible(!isVisible);
       }
@@ -20,7 +22,8 @@ export function HelpOverlay() {
   }, [isVisible]);
 
   const shortcuts = [
-    { key: 'Spacebar', action: 'Generate new palette' },
+    { key: 'Spacebar', action: 'Generate new palette (keeps locked colors)' },
+    { key: '1–6', action: 'Lock / unlock a color' },
     { key: 'G', action: 'Toggle gradient mode' },
     { key: 'E', action: 'Export palette as PNG' },
     { key: 'S', action: 'Share palette' },
@@ -67,7 +70,7 @@ export function HelpOverlay() {
         
         <div className="mt-6 pt-4 border-t">
           <p className="text-xs text-gray-500">
-            Pick a vibe, or enter your brand color as the base (it stays in the palette exactly). Click any value to copy it. Hover over colors to see all formats and lock them. The slider sets how many colors (3-6).
+            Pick a vibe, or enter your brand color as the base (it stays in the palette exactly). Lock the colors you like and press Space to regenerate the rest. Lock the 2nd color and new palettes are built around it. Click any value to copy it. The slider sets how many colors (3-6).
           </p>
         </div>
       </div>

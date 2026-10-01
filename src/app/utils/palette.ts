@@ -219,3 +219,44 @@ export function generatePalette({ vibe, baseHex, count = 5, rand = Math.random }
 
   return SLOTS_BY_COUNT[size].map(slot => colorFromHex(make(slot)));
 }
+
+/** The locked primary color (2nd swatch in generated palettes), used to anchor regeneration. */
+export function lockedPrimary(colors: Color[]): string | undefined {
+  const slots = SLOTS_BY_COUNT[colors.length];
+  const color = colors[slots ? slots.indexOf('primary') : 1];
+  return color?.locked ? color.hex : undefined;
+}
+
+/**
+ * Carry locked colors from the previous palette into a new one. Locks follow their
+ * role (dark, primary, accent...) when the count changes; a lock whose role no longer
+ * exists takes the nearest free middle slot so it is never silently dropped.
+ */
+export function mergeLocked(prev: Color[], next: Color[]): Color[] {
+  const result = [...next];
+  const prevSlots = SLOTS_BY_COUNT[prev.length];
+  const nextSlots = SLOTS_BY_COUNT[next.length];
+  const taken = new Set<number>();
+  const homeless: Color[] = [];
+
+  prev.forEach((color, i) => {
+    if (!color.locked) return;
+    const target = prevSlots && nextSlots ? nextSlots.indexOf(prevSlots[i]) : i < next.length ? i : -1;
+    if (target === -1 || taken.has(target)) {
+      homeless.push(color);
+    } else {
+      result[target] = color;
+      taken.add(target);
+    }
+  });
+
+  // Prefer middle (chromatic) slots, then the ends
+  const free = result
+    .map((_, i) => i)
+    .filter(i => !taken.has(i))
+    .sort((a, b) => Number(a === 0 || a === result.length - 1) - Number(b === 0 || b === result.length - 1));
+  homeless.forEach((color, k) => {
+    if (k < free.length) result[free[k]] = color;
+  });
+  return result;
+}

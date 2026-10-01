@@ -3,7 +3,7 @@ import { ColorSwatch } from './components/ColorSwatch';
 import { PaletteControls } from './components/PaletteControls';
 import { HelpOverlay } from './components/HelpOverlay';
 import { Color, colorFromHex } from './utils/colorUtils';
-import { generatePalette, MAX_COLORS, MIN_COLORS, VibeId } from './utils/palette';
+import { generatePalette, lockedPrimary, mergeLocked, MAX_COLORS, MIN_COLORS, VibeId } from './utils/palette';
 import { copyToClipboard } from './utils/clipboard';
 import { downloadPaletteImage } from './utils/imageExport';
 import { Toaster } from './components/ui/sonner';
@@ -25,17 +25,24 @@ export default function App() {
   // Regenerate unlocked colors, optionally with new settings applied first
   const regenerate = useCallback((overrides: Partial<PaletteSettings> = {}) => {
     const settings: PaletteSettings = { vibe, baseHex: selectedBaseColor, count: colorCount, ...overrides };
-    const newColors = generatePalette({
-      vibe: settings.vibe ?? undefined,
-      baseHex: settings.baseHex || undefined,
-      count: settings.count,
+    setColors(prevColors => {
+      const newColors = generatePalette({
+        vibe: settings.vibe ?? undefined,
+        // A locked primary anchors the palette like a base color does
+        baseHex: settings.baseHex || lockedPrimary(prevColors),
+        count: settings.count,
+      });
+      return mergeLocked(prevColors, newColors);
     });
-    setColors(prevColors => newColors.map((newColor, index) =>
-      prevColors[index]?.locked ? prevColors[index] : newColor
-    ));
   }, [vibe, selectedBaseColor, colorCount]);
 
-  const generateNewPalette = useCallback(() => regenerate(), [regenerate]);
+  const generateNewPalette = useCallback(() => {
+    if (colors.length > 0 && colors.every(color => color.locked)) {
+      toast('All colors are locked', { description: 'Unlock one to generate new options.' });
+      return;
+    }
+    regenerate();
+  }, [regenerate, colors]);
 
   // Initialize on mount and check URL params
   useEffect(() => {
@@ -65,14 +72,28 @@ export default function App() {
   // Keyboard event handlers
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
-      // Ignore if user is typing in an input
-      if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
+      const target = event.target as HTMLElement;
+      // Ignore typing in fields and browser/OS shortcuts like Cmd+S
+      if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target.isContentEditable) return;
+      if (event.metaKey || event.ctrlKey || event.altKey) return;
+
+      // Keyboard users activating a focused control get the native behavior
+      const onFocusedControl = target.matches('button, [role="slider"], a') && target.matches(':focus-visible');
+
+      if (/^Digit[1-9]$/.test(event.code)) {
+        const index = Number(event.code.slice(5)) - 1;
+        if (index < colors.length) {
+          event.preventDefault();
+          toggleColorLock(index);
+        }
         return;
       }
 
       switch (event.code) {
         case 'Space':
+          if (onFocusedControl) return;
           event.preventDefault();
+          if (event.repeat) return;
           generateNewPalette();
           break;
         case 'KeyG':
@@ -156,7 +177,7 @@ export default function App() {
       <div className="flex h-screen">
         {colors.map((color, index) => (
           <ColorSwatch
-            key={`${color.hex}-${index}`}
+            key={index}
             color={color}
             onToggleLock={toggleColorLock}
             index={index}
@@ -172,7 +193,7 @@ export default function App() {
       {colors.length > 0 && (
         <div className="fixed bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg border p-4 max-w-sm">
           <p className="text-sm text-gray-600">
-            Press <kbd className="px-1 py-0.5 bg-gray-100 rounded text-xs">Space</kbd> to generate new colors
+            Press <kbd className="px-1 py-0.5 bg-gray-100 rounded text-xs">Space</kbd> to generate, <kbd className="px-1 py-0.5 bg-gray-100 rounded text-xs">1</kbd>–<kbd className="px-1 py-0.5 bg-gray-100 rounded text-xs">{colors.length}</kbd> to lock a color
           </p>
         </div>
       )}
