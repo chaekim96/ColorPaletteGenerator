@@ -40,8 +40,8 @@ export function ColorSwatch({ color, onToggleLock, index, isGradientMode }: Colo
       className="relative flex-1 h-full min-h-[500px] group cursor-pointer transition-all duration-200 hover:scale-[1.02]"
       style={swatchStyle}
     >
-      {/* Lock button: always shown when locked, on touch screens, and on keyboard focus */}
-      <div className={`absolute top-4 right-4 transition-opacity duration-200 ${color.locked ? 'opacity-100' : `${revealClasses} focus-within:opacity-100`}`}>
+      {/* Lock button (centered so the toolbar never covers it): shown when locked, on touch, and on focus */}
+      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-200 ${color.locked ? 'opacity-100' : `${revealClasses} focus-within:opacity-100`}`}>
         <Button
           variant="ghost"
           size="sm"
