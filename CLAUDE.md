@@ -9,9 +9,9 @@ Palette + font picker for **startup founders and generalists with no design back
 - `culori` for OKLCH color math, `vitest` for logic tests. Planned: Vercel (hosting, OG image function, Web Analytics)
 
 ## Layout
-- `src/app/App.tsx` — palette state, keyboard shortcuts, URL parsing
+- `src/app/App.tsx` — palette state (initialized from the URL, synced back with replaceState), keyboard shortcuts
 - `src/app/components/` — `ColorSwatch`, `PaletteControls` (top toolbar), `FontBar` (docked pairing sample), `LandingPreview` (sample page painted with roles), `ContrastPanel` (AA/AAA badges + fixes), `ExportDialog` (code export tabs + PNG), `ColorWheel` (base color), `HelpOverlay` (`?` key)
-- `src/app/utils/` — pure logic: `palette` (vibes + OKLCH generator, lock merging), `describe` (text → vibe/base keyword parser), `fonts` (25 curated Google Fonts pairs), `roles` (auto-assign background/text/primary/accent + readable text shades; slot-stable for generated palettes; brand colors are never altered), `contrast` (WCAG checks + minimal OKLCH fixes), `export` (CSS vars / Tailwind v4 / v3 / Google Fonts, shadcn token names), `colorUtils` (Color type/conversions), `clipboard`, `imageExport` (PNG)
+- `src/app/utils/` — pure logic: `palette` (vibes + OKLCH generator, lock merging), `describe` (text → vibe/base keyword parser), `fonts` (25 curated Google Fonts pairs), `roles` (auto-assign background/text/primary/accent + readable text shades; slot-stable for generated palettes; brand colors are never altered), `contrast` (WCAG checks + minimal OKLCH fixes), `export` (CSS vars / Tailwind v4 / v3 / Google Fonts, shadcn token names), `shareUrl` (state <-> query string, legacy links), `colorUtils` (Color type/conversions), `clipboard`, `imageExport` (PNG)
 - New pure logic goes in `src/app/utils/` with a sibling `*.test.ts`. Keep components thin.
 
 ## Commands

@@ -1,9 +1,9 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { ColorSwatch } from './components/ColorSwatch';
 import { PaletteControls } from './components/PaletteControls';
 import { HelpOverlay } from './components/HelpOverlay';
 import { Color, colorFromHex } from './utils/colorUtils';
-import { generatePalette, getVibe, inferVibe, lockedPrimary, mergeLocked, MAX_COLORS, MIN_COLORS, primaryColor, VibeId } from './utils/palette';
+import { generatePalette, getVibe, inferVibe, lockedPrimary, mergeLocked, primaryColor, VibeId } from './utils/palette';
 import { getFontPair, loadFontPair, pickPair } from './utils/fonts';
 import { FontBar } from './components/FontBar';
 import { LandingPreview } from './components/LandingPreview';
@@ -13,6 +13,7 @@ import { checkRoles, PairCheck } from './utils/contrast';
 import { ExportDialog } from './components/ExportDialog';
 import { describeToSettings } from './utils/describe';
 import { copyToClipboard } from './utils/clipboard';
+import { decodeShareState, encodeShareState } from './utils/shareUrl';
 import { downloadPaletteImage } from './utils/imageExport';
 import { Toaster } from './components/ui/sonner';
 import { toast } from 'sonner';
@@ -23,16 +24,24 @@ interface PaletteSettings {
   count: number;
 }
 
+// Read once at startup: a shared link restores palette, fonts, vibe, base color and view
+const initial = decodeShareState(window.location.search);
+
 export default function App() {
-  const [colors, setColors] = useState<Color[]>([]);
-  const [isGradientMode, setIsGradientMode] = useState(false);
-  const [selectedBaseColor, setSelectedBaseColor] = useState('');
-  const [colorCount, setColorCount] = useState(5);
-  const [vibe, setVibe] = useState<VibeId | null>(null);
-  const [fontPairId, setFontPairId] = useState('');
-  const [view, setView] = useState<View>('palette');
-  const [previewMode, setPreviewMode] = useState<Mode>('light');
+  const [colors, setColors] = useState<Color[]>(() =>
+    initial.colors
+      ? initial.colors.map(hex => colorFromHex(hex))
+      : generatePalette({ vibe: initial.vibe, baseHex: initial.base, count: initial.count ?? 5 })
+  );
+  const [isGradientMode, setIsGradientMode] = useState(initial.gradient ?? false);
+  const [selectedBaseColor, setSelectedBaseColor] = useState(initial.base ?? '');
+  const [colorCount, setColorCount] = useState(initial.colors?.length ?? initial.count ?? 5);
+  const [vibe, setVibe] = useState<VibeId | null>(initial.vibe ?? null);
+  const [fontPairId, setFontPairId] = useState(initial.fonts ?? '');
+  const [view, setView] = useState<View>(initial.view ?? 'palette');
+  const [previewMode, setPreviewMode] = useState<Mode>(initial.mode ?? 'light');
   const [exportOpen, setExportOpen] = useState(false);
+  const keepSharedFonts = useRef(Boolean(initial.fonts));
 
   // The vibe the palette actually reads as: the chosen one, or inferred from its primary color
   const primary = primaryColor(colors);
@@ -42,6 +51,11 @@ export default function App() {
   // Switch fonts only when the current pairing no longer fits the palette's vibe
   useEffect(() => {
     if (!paletteVibe) return;
+    // Fonts from a shared link are shown as shared, even if they'd be picked differently here
+    if (keepSharedFonts.current) {
+      keepSharedFonts.current = false;
+      return;
+    }
     if (!getFontPair(fontPairId)?.vibes.includes(paletteVibe)) {
       setFontPairId(pickPair(paletteVibe).id);
     }
@@ -87,30 +101,20 @@ export default function App() {
     regenerate();
   }, [regenerate, colors]);
 
-  // Initialize on mount and check URL params
+  const shareQuery = encodeShareState({
+    colors: colors.map(c => c.hex),
+    fonts: fontPairId || undefined,
+    vibe: vibe ?? undefined,
+    base: selectedBaseColor || undefined,
+    view,
+    mode: previewMode,
+    gradient: isGradientMode,
+  });
+
+  // Keep the address bar in sync so reloads and copied URLs keep the current state
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlColors = urlParams.get('colors');
-    const urlCount = parseInt(urlParams.get('count') || '5');
-
-    if (urlParams.has('gradient')) {
-      setIsGradientMode(urlParams.get('gradient') === 'true');
-    }
-
-    if (urlColors) {
-      const hexes = urlColors.split('-');
-      if (hexes.every(hex => /^[0-9a-f]{6}$/i.test(hex)) && hexes.length >= 2 && hexes.length <= 10) {
-        setColors(hexes.map(hex => colorFromHex(`#${hex}`)));
-        setColorCount(hexes.length);
-        return;
-      }
-      console.warn('Invalid URL color parameters');
-    }
-
-    const count = urlCount >= MIN_COLORS && urlCount <= MAX_COLORS ? urlCount : colorCount;
-    setColorCount(count);
-    setColors(generatePalette({ count }));
-  }, []);
+    window.history.replaceState(null, '', `${window.location.pathname}?${shareQuery}`);
+  }, [shareQuery]);
 
   // Keyboard event handlers
   useEffect(() => {
@@ -186,12 +190,15 @@ export default function App() {
   };
 
   const sharePalette = async () => {
-    const colorHexes = colors.map(c => c.hex.slice(1)).join('-');
-    const url = `${window.location.origin}${window.location.pathname}?colors=${colorHexes}&gradient=${isGradientMode}&count=${colorCount}`;
+    const url = `${window.location.origin}${window.location.pathname}?${shareQuery}`;
 
     const success = await copyToClipboard(url);
     if (success) {
-      toast.success('Shareable link copied to clipboard!');
+      toast.success('Link copied', {
+        description: view === 'preview'
+          ? 'Opens this palette, fonts and the preview page.'
+          : 'Opens this palette and font pairing.',
+      });
     } else {
       toast.error('Failed to copy link');
     }
