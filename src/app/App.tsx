@@ -8,7 +8,8 @@ import { getFontPair, loadFontPair, pickPair } from './utils/fonts';
 import { FontBar } from './components/FontBar';
 import { LandingPreview } from './components/LandingPreview';
 import { View } from './components/PaletteControls';
-import { assignRoles, Mode } from './utils/roles';
+import { assignRoles, Mode, Roles } from './utils/roles';
+import { checkRoles, PairCheck } from './utils/contrast';
 import { describeToSettings } from './utils/describe';
 import { copyToClipboard } from './utils/clipboard';
 import { downloadPaletteImage } from './utils/imageExport';
@@ -47,6 +48,16 @@ export default function App() {
   useEffect(() => {
     if (fontPair) loadFontPair(fontPair);
   }, [fontPair]);
+
+  const roles: Roles | undefined = colors.length > 0 ? assignRoles(colors.map(c => c.hex), previewMode) : undefined;
+  const contrastChecks = roles ? checkRoles(roles) : [];
+
+  // Swap the adjusted color into the palette, keeping its lock; a fixed base color stays the base
+  const applyContrastFix = ({ from, to }: NonNullable<PairCheck['fix']>) => {
+    setColors(prev => prev.map(c => (c.hex === from ? colorFromHex(to, c.locked) : c)));
+    if (selectedBaseColor === from) setSelectedBaseColor(to);
+    toast.success(`Updated ${from} to ${to}`);
+  };
 
   const shuffleFonts = () => {
     if (paletteVibe) setFontPairId(pickPair(paletteVibe, fontPairId).id);
@@ -223,6 +234,7 @@ export default function App() {
       <PaletteControls
         view={view}
         onViewChange={setView}
+        contrastIssues={contrastChecks.filter(c => !c.passes).length}
         onGenerate={generateNewPalette}
         onDescribe={handleDescribe}
         vibe={vibe}
@@ -235,12 +247,14 @@ export default function App() {
         onColorCountChange={handleColorCountChange}
       />
       
-      {view === 'preview' && fontPair && colors.length > 0 ? (
+      {view === 'preview' && fontPair && roles ? (
         <LandingPreview
-          roles={assignRoles(colors.map(c => c.hex), previewMode)}
+          roles={roles}
           fontPair={fontPair}
           mode={previewMode}
           onModeChange={setPreviewMode}
+          checks={contrastChecks}
+          onApplyFix={applyContrastFix}
         />
       ) : (
         <div className="flex flex-1 min-h-0">

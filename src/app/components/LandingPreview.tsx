@@ -2,12 +2,16 @@ import { CSSProperties } from 'react';
 import { ShieldCheck, Sparkles, Zap } from 'lucide-react';
 import { FontPair, fontStack } from '../utils/fonts';
 import { Mode, Roles, ROLE_LABELS } from '../utils/roles';
+import { PairCheck } from '../utils/contrast';
+import { ContrastPanel } from './ContrastPanel';
 
 interface LandingPreviewProps {
   roles: Roles;
   fontPair: FontPair;
   mode: Mode;
   onModeChange: (mode: Mode) => void;
+  checks: PairCheck[];
+  onApplyFix: (fix: NonNullable<PairCheck['fix']>) => void;
 }
 
 const LEGEND: (keyof Roles)[] = ['background', 'surface', 'text', 'primary', 'accent'];
@@ -19,7 +23,7 @@ const FEATURES = [
 ];
 
 // Sample landing page painted with the palette's auto-assigned roles and the current font pairing
-export function LandingPreview({ roles, fontPair, mode, onModeChange }: LandingPreviewProps) {
+export function LandingPreview({ roles, fontPair, mode, onModeChange, checks, onApplyFix }: LandingPreviewProps) {
   const heading: CSSProperties = { fontFamily: fontStack(fontPair.heading), fontWeight: fontPair.heading.weight };
   const body: CSSProperties = { fontFamily: fontStack(fontPair.body), fontWeight: fontPair.body.weight };
   const primaryButton: CSSProperties = { backgroundColor: roles.primary, color: roles.onPrimary, fontWeight: 600 };
@@ -53,6 +57,8 @@ export function LandingPreview({ roles, fontPair, mode, onModeChange }: LandingP
           </div>
         </div>
 
+        <ContrastPanel checks={checks} onApplyFix={onApplyFix} />
+
         {/* Browser frame */}
         <div className="rounded-xl border shadow-lg overflow-hidden bg-white">
           <div className="flex items-center gap-2 px-4 py-2.5 border-b bg-gray-100" aria-hidden="true">
@@ -85,7 +91,7 @@ export function LandingPreview({ roles, fontPair, mode, onModeChange }: LandingP
                 New · Now in public beta
               </span>
               <h1 style={{ ...heading, fontSize: 'clamp(2rem, 5vw, 3.25rem)', lineHeight: 1.1, margin: 0 }}>
-                Turn your idea into a product people love
+                Turn your idea into a product <span style={{ color: roles.accent }}>people love</span>
               </h1>
               <p className="mt-5 mx-auto max-w-xl" style={{ color: roles.mutedText, fontSize: '1.1rem', lineHeight: 1.6 }}>
                 Northwind gives small teams everything they need to launch, learn from customers and grow, without hiring a design team.
@@ -96,6 +102,9 @@ export function LandingPreview({ roles, fontPair, mode, onModeChange }: LandingP
                   Book a demo
                 </span>
               </div>
+              <p className="mt-5" style={{ color: roles.primary, fontWeight: 600, fontSize: '0.95rem' }}>
+                See how it works →
+              </p>
             </header>
 
             <section className="grid grid-cols-1 md:grid-cols-3 gap-4 px-8 pb-16">
@@ -112,6 +121,7 @@ export function LandingPreview({ roles, fontPair, mode, onModeChange }: LandingP
                     </span>
                     <h2 style={{ ...heading, fontSize: '1.2rem', margin: 0 }}>{title}</h2>
                     <p className="mt-2" style={{ color: roles.mutedText, fontSize: '0.95rem', lineHeight: 1.6 }}>{text}</p>
+                    <p className="mt-3" style={{ color: roles.primary, fontWeight: 600, fontSize: '0.9rem' }}>Learn more →</p>
                   </article>
                 );
               })}

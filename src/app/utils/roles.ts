@@ -1,6 +1,6 @@
 // Auto-assign UI roles (background, text, primary...) from any palette.
 import { interpolate, formatHex, wcagContrast } from 'culori';
-import { hexToOklch, oklchToHex } from './palette';
+import { hexToOklch, oklchToHex, SLOTS_BY_COUNT } from './palette';
 
 export type Mode = 'light' | 'dark';
 
@@ -47,32 +47,42 @@ const bestOn = (background: string, ...candidates: string[]) =>
 
 export function assignRoles(hexes: string[], mode: Mode = 'light'): Roles {
   const colors = hexes.map(hex => ({ hex, ...hexToOklch(hex) }));
-  const byLightness = [...colors].sort((a, b) => b.l - a.l);
-  const mostChromatic = [...colors].sort((a, b) => b.c - a.c)[0];
+  // Generated palettes have fixed positions for primary/accent, which keeps roles stable when a
+  // color is adjusted (e.g. a contrast fix). Other palettes fall back to lightness/chroma heuristics.
+  const slots = SLOTS_BY_COUNT[hexes.length];
+  const slotPrimary = slots ? colors[slots.indexOf('primary')] : undefined;
+  const slotAccent = slots && slots.includes('accent') ? colors[slots.indexOf('accent')] : undefined;
+  const neutralPool = colors.filter(c => c !== slotPrimary && c !== slotAccent);
+  const byLightness = [...neutralPool].sort((a, b) => b.l - a.l);
+  const mostChromatic = slotPrimary ?? [...colors].sort((a, b) => b.c - a.c)[0];
   const brandHue = mostChromatic?.h ?? 250;
 
   // Background: lightest (or darkest in dark mode) color, if it's light/dark enough to be a page
-  let background = mode === 'light' ? byLightness[0] : byLightness[byLightness.length - 1];
+  const background = mode === 'light' ? byLightness[0] : byLightness[byLightness.length - 1];
   const backgroundOk = mode === 'light' ? background.l >= 0.88 : background.l <= 0.3;
   const backgroundHex = backgroundOk
     ? background.hex
     : oklchToHex({ l: mode === 'light' ? 0.985 : 0.17, c: 0.01, h: brandHue });
 
   // Text: the palette color with the most contrast on the background; derive one if none is readable
-  const others = colors.filter(c => c.hex !== backgroundHex);
+  const others = neutralPool.filter(c => c.hex !== backgroundHex);
   const textCandidate = others.length > 0 ? others.reduce((best, c) => (contrast(c.hex, backgroundHex) > contrast(best.hex, backgroundHex) ? c : best)) : undefined;
   const textHex = textCandidate && contrast(textCandidate.hex, backgroundHex) >= 7
     ? textCandidate.hex
     : oklchToHex({ l: mode === 'light' ? 0.2 : 0.96, c: 0.02, h: brandHue });
 
-  // Primary / accent: the most chromatic remaining colors, accent preferring a different hue
+  // Primary / accent: slot positions when known, else the most chromatic remaining colors,
+  // with the accent preferring a different hue
   const chromatic = colors
     .filter(c => c.hex !== backgroundHex && c.hex !== textHex)
     .sort((a, b) => b.c - a.c);
-  const primary = chromatic[0]?.hex ?? textHex;
-  const primaryHue = chromatic[0]?.h ?? brandHue;
+  const primaryColor = slotPrimary ?? chromatic[0];
+  const primary = primaryColor?.hex ?? textHex;
+  const primaryHue = primaryColor?.h ?? brandHue;
   const hueDistance = (h: number) => Math.min(Math.abs(h - primaryHue), 360 - Math.abs(h - primaryHue));
-  const accent = chromatic.slice(1).sort((a, b) => b.c * (1 + hueDistance(b.h) / 90) - a.c * (1 + hueDistance(a.h) / 90))[0]?.hex ?? primary;
+  const accent = slotAccent?.hex ?? chromatic
+    .filter(c => c !== primaryColor)
+    .sort((a, b) => b.c * (1 + hueDistance(b.h) / 90) - a.c * (1 + hueDistance(a.h) / 90))[0]?.hex ?? primary;
 
   const surface = mix(backgroundHex, primary, mode === 'light' ? 0.05 : 0.1);
 

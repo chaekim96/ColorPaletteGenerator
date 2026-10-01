@@ -12,6 +12,7 @@ export type View = 'palette' | 'preview';
 interface PaletteControlsProps {
   view: View;
   onViewChange: (view: View) => void;
+  contrastIssues: number;
   onGenerate: () => void;
   onDescribe: (text: string) => void;
   vibe: VibeId | null;
@@ -24,7 +25,7 @@ interface PaletteControlsProps {
   onColorCountChange: (count: number) => void;
 }
 
-export function PaletteControls({ view, onViewChange, onGenerate, onDescribe, vibe, onVibeSelect, onExport, onShare, onBaseColorSelect, selectedBaseColor, colorCount, onColorCountChange }: PaletteControlsProps) {
+export function PaletteControls({ view, onViewChange, contrastIssues, onGenerate, onDescribe, vibe, onVibeSelect, onExport, onShare, onBaseColorSelect, selectedBaseColor, colorCount, onColorCountChange }: PaletteControlsProps) {
   return (
     <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-10">
       <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg border p-4">
@@ -79,6 +80,14 @@ export function PaletteControls({ view, onViewChange, onGenerate, onDescribe, vi
                 >
                   <Icon className="h-4 w-4" />
                   {label}
+                  {id === 'preview' && contrastIssues > 0 && (
+                    <span
+                      className="ml-0.5 rounded-full bg-red-600 text-white text-[10px] leading-none px-1.5 py-0.5"
+                      aria-label={`${contrastIssues} contrast ${contrastIssues === 1 ? 'issue' : 'issues'}`}
+                    >
+                      {contrastIssues}
+                    </span>
+                  )}
                 </Button>
               ))}
             </div>
