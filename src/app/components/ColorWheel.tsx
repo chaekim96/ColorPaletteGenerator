@@ -1,6 +1,9 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { Button } from './ui/button';
 import { RotateCcw } from 'lucide-react';
+import { converter } from 'culori';
+
+const toHsl = converter('hsl');
 
 interface ColorWheelProps {
   onColorSelect: (color: string) => void;
@@ -147,6 +150,15 @@ export function ColorWheel({ onColorSelect, selectedColor, size = 120 }: ColorWh
       };
     }
   }, [isDragging, handleMouseMove, handleMouseUp]);
+
+  // Keep the indicator in sync when the base color is set elsewhere (e.g. hex input)
+  useEffect(() => {
+    if (!selectedColor || isDragging) return;
+    const hsl = toHsl(selectedColor);
+    if (!hsl) return;
+    setCurrentHue(Math.round(hsl.h ?? 0));
+    setCurrentSaturation(Math.round(hsl.s * 100));
+  }, [selectedColor, isDragging]);
 
   useEffect(() => {
     drawColorWheel();

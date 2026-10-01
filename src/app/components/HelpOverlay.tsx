@@ -67,7 +67,7 @@ export function HelpOverlay() {
         
         <div className="mt-6 pt-4 border-t">
           <p className="text-xs text-gray-500">
-            Click on any color to copy its value. Hover over colors to see all formats and lock them. Use the color wheel to select a base color and the slider to choose how many colors (2-10) for harmonious palettes.
+            Pick a vibe, or enter your brand color as the base (it stays in the palette exactly). Click any value to copy it. Hover over colors to see all formats and lock them. The slider sets how many colors (3-6).
           </p>
         </div>
       </div>

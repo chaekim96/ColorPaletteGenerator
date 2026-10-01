@@ -2,93 +2,65 @@ import { useState, useEffect, useCallback } from 'react';
 import { ColorSwatch } from './components/ColorSwatch';
 import { PaletteControls } from './components/PaletteControls';
 import { HelpOverlay } from './components/HelpOverlay';
-import { Color, generateHarmoniousPalette, hexToRgb, rgbToHsl } from './utils/colorUtils';
+import { Color, colorFromHex } from './utils/colorUtils';
+import { generatePalette, MAX_COLORS, MIN_COLORS, VibeId } from './utils/palette';
 import { copyToClipboard } from './utils/clipboard';
 import { downloadPaletteImage } from './utils/imageExport';
 import { Toaster } from './components/ui/sonner';
 import { toast } from 'sonner';
+
+interface PaletteSettings {
+  vibe: VibeId | null;
+  baseHex: string;
+  count: number;
+}
 
 export default function App() {
   const [colors, setColors] = useState<Color[]>([]);
   const [isGradientMode, setIsGradientMode] = useState(false);
   const [selectedBaseColor, setSelectedBaseColor] = useState('');
   const [colorCount, setColorCount] = useState(5);
+  const [vibe, setVibe] = useState<VibeId | null>(null);
 
-  // Initialize palette
-  const generateNewPalette = useCallback(() => {
-    setColors(prevColors => {
-      const newColors = generateHarmoniousPalette(selectedBaseColor || undefined, colorCount);
-      
-      // Preserve locked colors (only if they exist in the new array)
-      return newColors.map((newColor, index) => {
-        if (prevColors[index]?.locked) {
-          return prevColors[index];
-        }
-        return newColor;
-      });
+  // Regenerate unlocked colors, optionally with new settings applied first
+  const regenerate = useCallback((overrides: Partial<PaletteSettings> = {}) => {
+    const settings: PaletteSettings = { vibe, baseHex: selectedBaseColor, count: colorCount, ...overrides };
+    const newColors = generatePalette({
+      vibe: settings.vibe ?? undefined,
+      baseHex: settings.baseHex || undefined,
+      count: settings.count,
     });
-  }, [selectedBaseColor, colorCount]);
+    setColors(prevColors => newColors.map((newColor, index) =>
+      prevColors[index]?.locked ? prevColors[index] : newColor
+    ));
+  }, [vibe, selectedBaseColor, colorCount]);
 
-  // Effect to generate palette when colorCount changes (after URL initialization)
-  useEffect(() => {
-    // Only generate if we have colors already (meaning we've initialized)
-    if (colors.length > 0 && colors.length !== colorCount) {
-      const newColors = generateHarmoniousPalette(selectedBaseColor || undefined, colorCount);
-      setColors(prevColors => {
-        // Preserve locked colors (only if they exist in the new array)
-        return newColors.map((newColor, index) => {
-          if (prevColors[index]?.locked) {
-            return prevColors[index];
-          }
-          return newColor;
-        });
-      });
-    }
-  }, [colorCount, selectedBaseColor]);
+  const generateNewPalette = useCallback(() => regenerate(), [regenerate]);
 
   // Initialize on mount and check URL params
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const urlColors = urlParams.get('colors');
-    const urlGradient = urlParams.get('gradient') === 'true';
     const urlCount = parseInt(urlParams.get('count') || '5');
-    
-    // First, set the gradient mode from URL if present
+
     if (urlParams.has('gradient')) {
-      setIsGradientMode(urlGradient);
+      setIsGradientMode(urlParams.get('gradient') === 'true');
     }
-    
+
     if (urlColors) {
-      try {
-        const hexColors = urlColors.split('-').map(hex => `#${hex}`);
-        const parsedColors: Color[] = hexColors.map(hex => {
-          const rgb = hexToRgb(hex);
-          const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
-          return { hex, rgb, hsl, locked: false };
-        });
-        
-        if (parsedColors.length >= 2 && parsedColors.length <= 10) {
-          setColors(parsedColors);
-          setColorCount(parsedColors.length);
-          return;
-        }
-      } catch (error) {
-        console.warn('Invalid URL color parameters');
+      const hexes = urlColors.split('-');
+      if (hexes.every(hex => /^[0-9a-f]{6}$/i.test(hex)) && hexes.length >= 2 && hexes.length <= 10) {
+        setColors(hexes.map(hex => colorFromHex(`#${hex}`)));
+        setColorCount(hexes.length);
+        return;
       }
+      console.warn('Invalid URL color parameters');
     }
-    
-    // Set color count from URL if valid
-    if (urlCount >= 2 && urlCount <= 10 && urlCount !== colorCount) {
-      setColorCount(urlCount);
-      // Generate palette with the new count
-      const newColors = generateHarmoniousPalette(selectedBaseColor || undefined, urlCount);
-      setColors(newColors);
-    } else {
-      // Generate initial palette with current colorCount
-      const newColors = generateHarmoniousPalette(selectedBaseColor || undefined, colorCount);
-      setColors(newColors);
-    }
-  }, []); // Remove generateNewPalette from dependencies to avoid circular dependency
+
+    const count = urlCount >= MIN_COLORS && urlCount <= MAX_COLORS ? urlCount : colorCount;
+    setColorCount(count);
+    setColors(generatePalette({ count }));
+  }, []);
 
   // Keyboard event handlers
   useEffect(() => {
@@ -152,22 +124,27 @@ export default function App() {
     }
   };
 
-  const handleBaseColorSelect = (color: string) => {
-    setSelectedBaseColor(color);
-    // The useEffect will handle palette regeneration
+  const handleBaseColorSelect = (hex: string) => {
+    setSelectedBaseColor(hex);
+    regenerate({ baseHex: hex });
+  };
+
+  const handleVibeSelect = (newVibe: VibeId | null) => {
+    setVibe(newVibe);
+    regenerate({ vibe: newVibe });
   };
 
   const handleColorCountChange = (newCount: number) => {
     setColorCount(newCount);
-    // The useEffect will handle palette regeneration
+    regenerate({ count: newCount });
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
       <PaletteControls 
         onGenerate={generateNewPalette}
-        onToggleGradient={() => setIsGradientMode(prev => !prev)}
-        isGradientMode={isGradientMode}
+        vibe={vibe}
+        onVibeSelect={handleVibeSelect}
         onExport={exportPalette}
         onShare={sharePalette}
         onBaseColorSelect={handleBaseColorSelect}

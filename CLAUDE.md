@@ -6,16 +6,16 @@ Palette + font picker for **startup founders and generalists with no design back
 - Vite 6 + React 18 + TypeScript (strict), Tailwind v4 via `@tailwindcss/vite`
 - shadcn/ui (Radix) primitives in `src/app/components/ui/`, icons from `lucide-react`, toasts via `sonner`
 - Origin: exported from Figma Make. No backend, no database — all state lives in the URL.
-- Planned additions: `culori` (OKLCH), `vitest` (color-logic tests), Vercel (hosting, OG image function, Web Analytics)
+- `culori` for OKLCH color math, `vitest` for logic tests. Planned: Vercel (hosting, OG image function, Web Analytics)
 
 ## Layout
 - `src/app/App.tsx` — palette state, keyboard shortcuts, URL parsing
 - `src/app/components/` — `ColorSwatch`, `PaletteControls` (top toolbar), `ColorWheel` (base color), `HelpOverlay` (`?` key)
-- `src/app/utils/` — pure logic: `colorUtils` (generation/conversion), `clipboard`, `imageExport` (PNG)
+- `src/app/utils/` — pure logic: `palette` (vibes + OKLCH generator), `colorUtils` (Color type/conversions), `clipboard`, `imageExport` (PNG)
 - New pure logic goes in `src/app/utils/` with a sibling `*.test.ts`. Keep components thin.
 
 ## Commands
-- `npm i` · `npm run dev` · `npm run build` (typecheck + build) · `npm test` (once vitest is added)
+- `npm i` · `npm run dev` · `npm run build` (typecheck + build) · `npm test` (vitest)
 
 ## Conventions
 - Keep the existing visual style: full-height swatch columns, floating white/90 blurred toolbar, shadcn `Button` variants, gray-50 background, sonner toasts.
