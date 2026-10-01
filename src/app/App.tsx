@@ -10,6 +10,7 @@ import { LandingPreview } from './components/LandingPreview';
 import { View } from './components/PaletteControls';
 import { assignRoles, Mode, Roles } from './utils/roles';
 import { checkRoles, PairCheck } from './utils/contrast';
+import { ExportDialog } from './components/ExportDialog';
 import { describeToSettings } from './utils/describe';
 import { copyToClipboard } from './utils/clipboard';
 import { downloadPaletteImage } from './utils/imageExport';
@@ -31,6 +32,7 @@ export default function App() {
   const [fontPairId, setFontPairId] = useState('');
   const [view, setView] = useState<View>('palette');
   const [previewMode, setPreviewMode] = useState<Mode>('light');
+  const [exportOpen, setExportOpen] = useState(false);
 
   // The vibe the palette actually reads as: the chosen one, or inferred from its primary color
   const primary = primaryColor(colors);
@@ -117,6 +119,7 @@ export default function App() {
       // Ignore typing in fields and browser/OS shortcuts like Cmd+S
       if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target.isContentEditable) return;
       if (event.metaKey || event.ctrlKey || event.altKey) return;
+      if (exportOpen) return; // the dialog handles its own keys
 
       // Keyboard users activating a focused control get the native behavior
       const onFocusedControl = target.matches('button, [role="slider"], a') && target.matches(':focus-visible');
@@ -151,7 +154,7 @@ export default function App() {
           break;
         case 'KeyE':
           event.preventDefault();
-          exportPalette();
+          setExportOpen(true);
           break;
         case 'KeyS':
           event.preventDefault();
@@ -172,7 +175,7 @@ export default function App() {
     );
   };
 
-  const exportPalette = async () => {
+  const downloadPng = async () => {
     try {
       await downloadPaletteImage(colors);
       toast.success('Palette image exported successfully!');
@@ -239,7 +242,7 @@ export default function App() {
         onDescribe={handleDescribe}
         vibe={vibe}
         onVibeSelect={handleVibeSelect}
-        onExport={exportPalette}
+        onExport={() => setExportOpen(true)}
         onShare={sharePalette}
         onBaseColorSelect={handleBaseColorSelect}
         selectedBaseColor={selectedBaseColor}
@@ -271,6 +274,20 @@ export default function App() {
       )}
 
       {fontPair && paletteVibe && <FontBar pair={fontPair} vibe={paletteVibe} onShuffle={shuffleFonts} />}
+
+      {fontPair && colors.length > 0 && (
+        <ExportDialog
+          open={exportOpen}
+          onOpenChange={setExportOpen}
+          onDownloadPng={downloadPng}
+          input={{
+            palette: colors.map(c => c.hex),
+            light: assignRoles(colors.map(c => c.hex), 'light'),
+            dark: assignRoles(colors.map(c => c.hex), 'dark'),
+            fonts: fontPair,
+          }}
+        />
+      )}
 
       <HelpOverlay />
       <Toaster />

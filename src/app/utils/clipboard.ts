@@ -2,8 +2,15 @@
 
 export async function copyToClipboard(text: string): Promise<boolean> {
   try {
-    // Always use the fallback method for maximum compatibility
-    // The modern Clipboard API is often blocked by permissions policies
+    // Modern API first (works inside modals with focus traps); fall back where it's blocked
+    if (navigator.clipboard && window.isSecureContext) {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch {
+        // permissions policy or unfocused document: use the fallback below
+      }
+    }
     return fallbackCopyToClipboard(text);
   } catch (error) {
     console.error('Failed to copy to clipboard:', error);

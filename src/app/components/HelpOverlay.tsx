@@ -27,7 +27,7 @@ export function HelpOverlay() {
     { key: 'P', action: 'Switch palette / preview' },
     { key: 'F', action: 'Shuffle fonts' },
     { key: 'G', action: 'Toggle gradient mode' },
-    { key: 'E', action: 'Export palette as PNG' },
+    { key: 'E', action: 'Export code (CSS, Tailwind, fonts) or PNG' },
     { key: 'S', action: 'Share palette' },
     { key: '?', action: 'Toggle this help' },
     { key: 'Esc', action: 'Close help' },
