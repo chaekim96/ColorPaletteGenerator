@@ -27,6 +27,10 @@ describe('assignRoles', () => {
           expect(contrast(roles.mutedText, roles.background)).toBeGreaterThanOrEqual(4.5);
           expect(contrast(roles.mutedText, roles.surface)).toBeGreaterThanOrEqual(4.5);
           expect(contrast(roles.text, roles.surface)).toBeGreaterThanOrEqual(4.5);
+          expect(contrast(roles.primaryText, roles.background)).toBeGreaterThanOrEqual(4.5);
+          expect(contrast(roles.primaryText, roles.surface)).toBeGreaterThanOrEqual(4.5);
+          expect(contrast(roles.accentText, roles.background)).toBeGreaterThanOrEqual(3);
+          expect(roles.primary).toBe(hexes[1]); // brand color is never altered
         }
       }
     }

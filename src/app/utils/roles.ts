@@ -10,10 +10,12 @@ export interface Roles {
   border: string;
   text: string;
   mutedText: string;
-  primary: string; // buttons, links, brand
+  primary: string; // buttons, fills, brand
   onPrimary: string; // text on primary
-  accent: string; // highlights, badges, icons
+  primaryText: string; // primary as text (links): the brand color, or a readable shade of it
+  accent: string; // badges, icons, highlights
   onAccent: string;
+  accentText: string; // accent as large text (headline highlights)
 }
 
 export const ROLE_LABELS: Record<keyof Roles, string> = {
@@ -24,13 +26,41 @@ export const ROLE_LABELS: Record<keyof Roles, string> = {
   mutedText: 'Muted text',
   primary: 'Primary',
   onPrimary: 'On primary',
+  primaryText: 'Primary text',
   accent: 'Accent',
   onAccent: 'On accent',
+  accentText: 'Accent text',
 };
 
 export const contrast = (a: string, b: string) => wcagContrast(a, b);
 
 const mix = (from: string, to: string, amount: number) => formatHex(interpolate([from, to], 'oklch')(amount));
+
+/**
+ * Smallest OKLCH lightness change to `hex` (hue and chroma kept) after which it reaches `target`
+ * against every entry of `against`. An entry is a color, or a function producing the color to
+ * check for a candidate (text on buttons is re-picked as the button changes).
+ */
+export function adjustForContrast(hex: string, against: (string | ((candidate: string) => string))[], target = 4.5): string | undefined {
+  const { l, c, h } = hexToOklch(hex);
+  const passes = (candidate: string) =>
+    against.every(other => contrast(candidate, typeof other === 'function' ? other(candidate) : other) >= target);
+  for (let delta = 0.005; delta <= 1; delta += 0.005) {
+    for (const next of [l - delta, l + delta]) {
+      if (next < 0 || next > 1) continue;
+      const candidate = oklchToHex({ l: next, c, h });
+      if (candidate !== hex && passes(candidate)) return candidate;
+    }
+  }
+  return undefined;
+}
+
+/**
+ * Like design systems' brand-500 (fills) vs brand-700 (text): keep the brand color when it already
+ * reads as text, otherwise use the closest shade of it that does.
+ */
+const textShade = (brand: string, surfaces: string[], target: number, fallback: string) =>
+  surfaces.every(s => contrast(brand, s) >= target) ? brand : adjustForContrast(brand, surfaces, target) ?? fallback;
 
 /** Fade `text` toward `background` as far as possible while staying readable on every given surface. */
 const readableFade = (text: string, background: string, surfaces: string[], maxAmount: number, minContrast: number) => {
@@ -94,7 +124,9 @@ export function assignRoles(hexes: string[], mode: Mode = 'light'): Roles {
     mutedText: readableFade(textHex, backgroundHex, [backgroundHex, surface], 0.4, 4.5),
     primary,
     onPrimary: bestOn(primary, backgroundHex, textHex, '#ffffff', '#000000'),
+    primaryText: textShade(primary, [backgroundHex, surface], 4.5, textHex),
     accent,
     onAccent: bestOn(accent, backgroundHex, textHex, '#ffffff', '#000000'),
+    accentText: textShade(accent, [backgroundHex], 3, textHex),
   };
 }

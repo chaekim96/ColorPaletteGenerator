@@ -1,6 +1,7 @@
 // WCAG contrast checks for the role pairs the preview uses, with minimal-change fixes.
-import { contrast, Roles } from './roles';
-import { hexToOklch, oklchToHex } from './palette';
+import { adjustForContrast, contrast, Roles } from './roles';
+
+export { adjustForContrast };
 
 export type Rating = 'AAA' | 'AA' | 'AA Large' | 'Fail';
 
@@ -26,25 +27,8 @@ export interface PairCheck {
   passes: boolean;
   /** Present when the pair is below AA and a palette color can be adjusted to fix it */
   fix?: { role: keyof Roles; from: string; to: string };
-}
-
-/**
- * Smallest OKLCH lightness change to `hex` (hue and chroma kept) after which it reaches `target`
- * against every entry of `against`. An entry is a color, or a function producing the color to
- * check for a candidate (text on buttons is re-picked as the button changes).
- */
-export function adjustForContrast(hex: string, against: (string | ((candidate: string) => string))[], target = AA): string | undefined {
-  const { l, c, h } = hexToOklch(hex);
-  const passes = (candidate: string) =>
-    against.every(other => contrast(candidate, typeof other === 'function' ? other(candidate) : other) >= target);
-  for (let delta = 0.005; delta <= 1; delta += 0.005) {
-    for (const next of [l - delta, l + delta]) {
-      if (next < 0 || next > 1) continue;
-      const candidate = oklchToHex({ l: next, c, h });
-      if (candidate !== hex && passes(candidate)) return candidate;
-    }
-  }
-  return undefined;
+  /** Present when a readable shade of a brand color is used for text instead of the color itself */
+  shade?: { brand: string; brandRatio: number };
 }
 
 export function checkRoles(roles: Roles): PairCheck[] {
@@ -59,14 +43,16 @@ export function checkRoles(roles: Roles): PairCheck[] {
     { id: 'muted', label: 'Secondary text', foreground: roles.mutedText, background: roles.background, minimum: AA },
     { id: 'card', label: 'Text on cards', foreground: roles.mutedText, background: roles.surface, minimum: AA },
     { id: 'button', label: 'Button text', foreground: roles.onPrimary, background: roles.primary, minimum: AA, fixRole: 'primary', fixAgainst: [bestOn] },
-    { id: 'link', label: 'Links in primary color', foreground: roles.primary, background: roles.background, minimum: AA, fixRole: 'primary', fixAgainst: [roles.background, roles.surface, bestOn] },
+    { id: 'link', label: 'Links (primary text shade)', foreground: roles.primaryText, background: roles.background, minimum: AA },
     { id: 'badge', label: 'Badge text', foreground: roles.onAccent, background: roles.accent, minimum: AA, fixRole: 'accent', fixAgainst: [bestOn] },
-    { id: 'highlight', label: 'Accent words in headlines (large text)', foreground: roles.accent, background: roles.background, minimum: AA_LARGE, fixRole: 'accent', fixAgainst: [roles.background] },
+    { id: 'highlight', label: 'Accent words in headlines (large text)', foreground: roles.accentText, background: roles.background, minimum: AA_LARGE },
   ];
 
   return pairs.map(({ fixRole, fixAgainst, ...pair }) => {
     const ratio = contrast(pair.foreground, pair.background);
     const check: PairCheck = { ...pair, ratio, rating: rate(ratio), passes: ratio >= pair.minimum };
+    const brand = pair.id === 'link' ? roles.primary : pair.id === 'highlight' ? roles.accent : undefined;
+    if (brand && brand !== pair.foreground) check.shade = { brand, brandRatio: contrast(brand, pair.background) };
     if (check.passes || !fixRole || !fixAgainst) return check;
 
     const from = roles[fixRole];

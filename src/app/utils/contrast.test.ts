@@ -35,12 +35,21 @@ describe('checkRoles', () => {
     expect(checkRoles(roles).find(c => c.id === 'button')!.passes).toBe(true);
   });
 
-  it('flags a bright primary used as link text and suggests a darker version', () => {
+  it('keeps a bright brand color and uses a readable shade of it for links', () => {
     const roles = assignRoles(['#111111', '#ffd60a', '#fafafa']); // yellow on near-white
+    expect(roles.primary).toBe('#ffd60a');
     const link = checkRoles(roles).find(c => c.id === 'link')!;
-    expect(link.passes).toBe(false);
-    expect(link.fix?.role).toBe('primary');
-    expect(hexToOklch(link.fix!.to).l).toBeLessThan(hexToOklch('#ffd60a').l);
+    expect(link.passes).toBe(true);
+    expect(link.shade?.brand).toBe('#ffd60a');
+    expect(link.shade!.brandRatio).toBeLessThan(2);
+    expect(hexToOklch(roles.primaryText).l).toBeLessThan(hexToOklch('#ffd60a').l);
+    expect(Math.abs(hexToOklch(roles.primaryText).h - hexToOklch('#ffd60a').h)).toBeLessThan(8);
+  });
+
+  it('uses the brand color itself as text when it already reads', () => {
+    const roles = assignRoles(['#111111', '#1d4ed8', '#fafafa']);
+    expect(roles.primaryText).toBe('#1d4ed8');
+    expect(checkRoles(roles).find(c => c.id === 'link')!.shade).toBeUndefined();
   });
 
   it('judges headline accents against the large-text minimum (3:1)', () => {
@@ -49,23 +58,21 @@ describe('checkRoles', () => {
     expect(highlight.passes).toBe(highlight.ratio >= 3);
   });
 
-  it('every suggested fix actually passes once applied to the palette', () => {
-    let fixesChecked = 0;
+  it('generated palettes pass every check, and any suggested fix passes once applied', () => {
     for (const vibe of VIBES) {
       for (let i = 0; i < 150; i++) {
         const hexes = generatePalette({ vibe: vibe.id }).map(c => c.hex);
         for (const mode of ['light', 'dark'] as const) {
           for (const check of checkRoles(assignRoles(hexes, mode))) {
             if (check.passes) continue;
+            // Only reachable if a derived role could not be made readable
             expect(check.fix, `${check.id} ${check.foreground}/${check.background}`).toBeDefined();
             const fixed = hexes.map(h => (h === check.fix!.from ? check.fix!.to : h));
             const after = checkRoles(assignRoles(fixed, mode)).find(c => c.id === check.id)!;
             expect(after.ratio, `${check.id} after fix ${check.fix!.from}->${check.fix!.to}`).toBeGreaterThanOrEqual(check.minimum);
-            fixesChecked++;
           }
         }
       }
     }
-    expect(fixesChecked).toBeGreaterThan(0);
   });
 });

@@ -14,7 +14,7 @@ interface LandingPreviewProps {
   onApplyFix: (fix: NonNullable<PairCheck['fix']>) => void;
 }
 
-const LEGEND: (keyof Roles)[] = ['background', 'surface', 'text', 'primary', 'accent'];
+const LEGEND: (keyof Roles)[] = ['background', 'surface', 'text', 'primary', 'primaryText', 'accent'];
 
 const FEATURES = [
   { icon: Zap, title: 'Set up in minutes', body: 'Connect your tools and get your first result before your coffee gets cold.' },
@@ -34,7 +34,7 @@ export function LandingPreview({ roles, fontPair, mode, onModeChange, checks, on
         {/* Role legend */}
         <div className="flex flex-wrap items-center justify-between gap-3">
           <ul className="flex flex-wrap gap-2" aria-label="Color roles">
-            {LEGEND.map(role => (
+            {LEGEND.filter(role => role !== 'primaryText' || roles.primaryText !== roles.primary).map(role => (
               <li key={role} className="flex items-center gap-2 bg-white border rounded-md px-2 py-1 text-xs">
                 <span className="w-4 h-4 rounded border border-black/10" style={{ backgroundColor: roles[role] }} />
                 <span className="text-gray-600">{ROLE_LABELS[role]}</span>
@@ -91,7 +91,7 @@ export function LandingPreview({ roles, fontPair, mode, onModeChange, checks, on
                 New · Now in public beta
               </span>
               <h1 style={{ ...heading, fontSize: 'clamp(2rem, 5vw, 3.25rem)', lineHeight: 1.1, margin: 0 }}>
-                Turn your idea into a product <span style={{ color: roles.accent }}>people love</span>
+                Turn your idea into a product <span style={{ color: roles.accentText }}>people love</span>
               </h1>
               <p className="mt-5 mx-auto max-w-xl" style={{ color: roles.mutedText, fontSize: '1.1rem', lineHeight: 1.6 }}>
                 Northwind gives small teams everything they need to launch, learn from customers and grow, without hiring a design team.
@@ -102,7 +102,7 @@ export function LandingPreview({ roles, fontPair, mode, onModeChange, checks, on
                   Book a demo
                 </span>
               </div>
-              <p className="mt-5" style={{ color: roles.primary, fontWeight: 600, fontSize: '0.95rem' }}>
+              <p className="mt-5" style={{ color: roles.primaryText, fontWeight: 600, fontSize: '0.95rem' }}>
                 See how it works →
               </p>
             </header>
@@ -121,7 +121,7 @@ export function LandingPreview({ roles, fontPair, mode, onModeChange, checks, on
                     </span>
                     <h2 style={{ ...heading, fontSize: '1.2rem', margin: 0 }}>{title}</h2>
                     <p className="mt-2" style={{ color: roles.mutedText, fontSize: '0.95rem', lineHeight: 1.6 }}>{text}</p>
-                    <p className="mt-3" style={{ color: roles.primary, fontWeight: 600, fontSize: '0.9rem' }}>Learn more →</p>
+                    <p className="mt-3" style={{ color: roles.primaryText, fontWeight: 600, fontSize: '0.9rem' }}>Learn more →</p>
                   </article>
                 );
               })}

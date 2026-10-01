@@ -20,6 +20,7 @@ function RatingBadge({ check }: { check: PairCheck }) {
 // WCAG checks for every color pairing the preview uses, with one-click fixes for failures
 export function ContrastPanel({ checks, onApplyFix }: ContrastPanelProps) {
   const failing = checks.filter(c => !c.passes);
+  const shaded = checks.filter(c => c.shade).length;
   const [expanded, setExpanded] = useState(false);
   const open = expanded || failing.length > 0;
 
@@ -28,7 +29,10 @@ export function ContrastPanel({ checks, onApplyFix }: ContrastPanelProps) {
       <div className="flex items-center justify-between gap-3 px-4 py-2.5">
         <p className="flex items-center gap-2 text-sm text-gray-900">
           {failing.length === 0 ? (
-            <><Check className="h-4 w-4 text-emerald-700" /> All {checks.length} color pairings pass WCAG AA</>
+            <>
+              <Check className="h-4 w-4 text-emerald-700" /> All {checks.length} color pairings pass WCAG AA
+              {shaded > 0 && <span className="text-gray-600">· {shaded === 1 ? '1 brand color uses' : `${shaded} brand colors use`} a readable text shade</span>}
+            </>
           ) : (
             <><TriangleAlert className="h-4 w-4 text-amber-700" /> {failing.length} of {checks.length} pairings are hard to read</>
           )}
@@ -55,6 +59,14 @@ export function ContrastPanel({ checks, onApplyFix }: ContrastPanelProps) {
               <span className="flex-1 min-w-40 text-sm text-gray-900">{check.label}</span>
               <span className="font-mono text-xs text-gray-700 w-14 text-right">{check.ratio.toFixed(2)}:1</span>
               <RatingBadge check={check} />
+              {check.shade && (
+                <span className="w-full pl-[52px] -mt-1 flex items-center gap-1.5 text-xs text-gray-600">
+                  <span className="w-3 h-3 rounded-sm border border-black/10" style={{ backgroundColor: check.shade.brand }} />
+                  {check.shade.brand} is {check.shade.brandRatio.toFixed(2)}:1 as text, so it stays for buttons and fills and text uses
+                  <span className="w-3 h-3 rounded-sm border border-black/10" style={{ backgroundColor: check.foreground }} />
+                  {check.foreground}
+                </span>
+              )}
               {check.fix && (
                 <span className="flex items-center gap-2 w-full sm:w-auto sm:ml-2">
                   <span className="text-xs text-gray-600">{ROLE_LABELS[check.fix.role]}</span>
