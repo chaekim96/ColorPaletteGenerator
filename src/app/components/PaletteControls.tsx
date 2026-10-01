@@ -26,7 +26,7 @@ export function PaletteControls({ onGenerate, vibe, onVibeSelect, onExport, onSh
         <div className="flex items-center gap-6">
           {/* Color Wheel */}
           <ColorWheel
-            onColorSelect={(color) => onBaseColorSelect(color ? normalizeHex(color) ?? '' : '')}
+            onColorSelect={onBaseColorSelect}
             selectedColor={selectedBaseColor}
             size={84}
           />
