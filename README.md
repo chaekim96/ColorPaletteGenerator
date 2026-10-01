@@ -1,11 +1,12 @@
+# Color Palette Generator
 
-  # Color Palette Generator
+Palette and font pairing generator for founders and generalists who need a usable brand look fast.
 
-  This is a code bundle for Color Palette Generator. The original project is available at https://www.figma.com/design/jM7KyUTe5uojF6qOMhuF6U/Color-Palette-Generator.
+## Running the code
 
-  ## Running the code
+```bash
+npm i
+npm run dev
+```
 
-  Run `npm i` to install the dependencies.
-
-  Run `npm run dev` to start the development server.
-  
+`npm run build` typechecks and builds to `dist/`.

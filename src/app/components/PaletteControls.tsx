@@ -3,48 +3,21 @@ import { Button } from './ui/button';
 import { Switch } from './ui/switch';
 import { Label } from './ui/label';
 import { Slider } from './ui/slider';
-import { Color } from '../utils/colorUtils';
-import { copyToClipboard } from '../utils/clipboard';
-import { downloadPaletteImage } from '../utils/imageExport';
 import { ColorWheel } from './ColorWheel';
-import { toast } from 'sonner@2.0.3';
 
 interface PaletteControlsProps {
   onGenerate: () => void;
   onToggleGradient: () => void;
   isGradientMode: boolean;
-  colors: Color[];
+  onExport: () => void;
+  onShare: () => void;
   onBaseColorSelect: (color: string) => void;
   selectedBaseColor: string;
   colorCount: number;
   onColorCountChange: (count: number) => void;
 }
 
-export function PaletteControls({ onGenerate, onToggleGradient, isGradientMode, colors, onBaseColorSelect, selectedBaseColor, colorCount, onColorCountChange }: PaletteControlsProps) {
-  
-  const exportPalette = async () => {
-    try {
-      await downloadPaletteImage(colors);
-      toast.success('Palette image exported successfully!');
-    } catch (error) {
-      console.error('Export failed:', error);
-      toast.error('Failed to export palette image');
-    }
-  };
-
-  const sharePalette = async () => {
-    const colorHexes = colors.map(c => c.hex.slice(1)).join('-');
-    const url = `${window.location.origin}?colors=${colorHexes}&gradient=${isGradientMode}&count=${colorCount}`;
-    
-    const success = await copyToClipboard(url);
-    
-    if (success) {
-      toast.success('Shareable link copied to clipboard!');
-    } else {
-      toast.error('Failed to copy link');
-    }
-  };
-
+export function PaletteControls({ onGenerate, onToggleGradient, isGradientMode, onExport, onShare, onBaseColorSelect, selectedBaseColor, colorCount, onColorCountChange }: PaletteControlsProps) {
   return (
     <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-10">
       <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg border p-4">
@@ -91,12 +64,12 @@ export function PaletteControls({ onGenerate, onToggleGradient, isGradientMode, 
               </Label>
             </div>
             
-            <Button variant="outline" onClick={exportPalette} className="gap-2">
+            <Button variant="outline" onClick={onExport} className="gap-2">
               <Download className="h-4 w-4" />
               Export
             </Button>
             
-            <Button variant="outline" onClick={sharePalette} className="gap-2">
+            <Button variant="outline" onClick={onShare} className="gap-2">
               <Share className="h-4 w-4" />
               Share
             </Button>

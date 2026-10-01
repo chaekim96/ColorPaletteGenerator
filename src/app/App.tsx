@@ -2,11 +2,11 @@ import { useState, useEffect, useCallback } from 'react';
 import { ColorSwatch } from './components/ColorSwatch';
 import { PaletteControls } from './components/PaletteControls';
 import { HelpOverlay } from './components/HelpOverlay';
-import { Color, generateColor, generateHarmoniousPalette, hexToRgb, rgbToHsl } from './utils/colorUtils';
+import { Color, generateHarmoniousPalette, hexToRgb, rgbToHsl } from './utils/colorUtils';
 import { copyToClipboard } from './utils/clipboard';
 import { downloadPaletteImage } from './utils/imageExport';
 import { Toaster } from './components/ui/sonner';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 export default function App() {
   const [colors, setColors] = useState<Color[]>([]);
@@ -142,9 +142,14 @@ export default function App() {
 
   const sharePalette = async () => {
     const colorHexes = colors.map(c => c.hex.slice(1)).join('-');
-    const url = `${window.location.origin}?colors=${colorHexes}&gradient=${isGradientMode}&count=${colorCount}`;
-    
-    await copyToClipboard(url);
+    const url = `${window.location.origin}${window.location.pathname}?colors=${colorHexes}&gradient=${isGradientMode}&count=${colorCount}`;
+
+    const success = await copyToClipboard(url);
+    if (success) {
+      toast.success('Shareable link copied to clipboard!');
+    } else {
+      toast.error('Failed to copy link');
+    }
   };
 
   const handleBaseColorSelect = (color: string) => {
@@ -163,7 +168,8 @@ export default function App() {
         onGenerate={generateNewPalette}
         onToggleGradient={() => setIsGradientMode(prev => !prev)}
         isGradientMode={isGradientMode}
-        colors={colors}
+        onExport={exportPalette}
+        onShare={sharePalette}
         onBaseColorSelect={handleBaseColorSelect}
         selectedBaseColor={selectedBaseColor}
         colorCount={colorCount}

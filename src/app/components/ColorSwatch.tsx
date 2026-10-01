@@ -3,7 +3,7 @@ import { Copy, Lock, Unlock } from 'lucide-react';
 import { Color, isLightColor, generateColorGradient } from '../utils/colorUtils';
 import { copyToClipboard } from '../utils/clipboard';
 import { Button } from './ui/button';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 interface ColorSwatchProps {
   color: Color;
