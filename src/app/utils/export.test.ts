@@ -62,3 +62,13 @@ describe('googleFontsEmbed', () => {
     expect(html).toContain('<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>');
   });
 });
+
+describe('palette name header', () => {
+  it('labels every code export with the palette name when given', () => {
+    const named = { ...input, name: 'Velvet Plum' };
+    for (const out of [cssVariables(named), tailwindV4(named), tailwindV3(named)]) {
+      expect(out.startsWith('/* Velvet Plum */\n')).toBe(true);
+    }
+    expect(cssVariables(input).startsWith(':root')).toBe(true);
+  });
+});

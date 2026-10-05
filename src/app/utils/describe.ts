@@ -12,27 +12,37 @@ const VIBE_WORDS: Record<VibeId, string[]> = {
   ],
   playful: [
     'fun', 'playful', 'friendly', 'kids', 'kid', 'children', 'family', 'families', 'game', 'games', 'toy', 'toys',
-    'candy', 'food', 'snack', 'snacks', 'bakery', 'dessert', 'ice cream', 'pet', 'pets', 'dog', 'cat', 'party',
+    'candy', 'food', 'snack', 'snacks', 'dessert', 'ice cream', 'pet', 'pets', 'dog', 'cat', 'party',
     'social', 'creative', 'cheerful', 'happy', 'quirky', 'whimsical', 'youthful', 'young', 'gen z', 'colorful',
-    'community', 'school', 'learning', 'cute', 'approachable', 'dating', 'events',
+    'community', 'school', 'learning', 'cute', 'approachable', 'events',
   ],
   premium: [
     'luxury', 'luxurious', 'premium', 'elegant', 'sophisticated', 'high-end', 'high end', 'upscale', 'fashion',
     'jewelry', 'jewellery', 'wine', 'winery', 'spirits', 'whiskey', 'cocktail', 'hotel', 'boutique', 'exclusive',
     'refined', 'classy', 'timeless', 'real estate', 'watch', 'watches', 'beauty', 'cosmetics', 'perfume',
-    'fragrance', 'architecture', 'interior', 'interiors', 'private', 'concierge', 'wealth', 'black',
+    'fragrance', 'architecture', 'private', 'concierge', 'wealth', 'black',
+  ],
+  earthy: [
+    'earthy', 'rustic', 'warm', 'cozy', 'nature', 'natural', 'organic', 'sustainable', 'sustainability', 'eco',
+    'plant', 'plants', 'garden', 'gardening', 'farm', 'farmers', 'coffee', 'cafe', 'café', 'bakery', 'bread',
+    'chocolate', 'craft', 'handmade', 'artisan', 'ceramics', 'pottery', 'leather', 'home decor', 'furniture',
+    'interior', 'interiors', 'outdoors', 'outdoor', 'hiking', 'camping', 'vintage', 'retro', 'boho', 'grounded',
+  ],
+  romantic: [
+    'romantic', 'romance', 'wedding', 'weddings', 'bridal', 'bride', 'florist', 'flowers', 'floral', 'feminine',
+    'dating', 'love', 'valentine', 'dreamy', 'delicate', 'soft pink', 'blush', 'lingerie', 'stationery', 'invitations',
+    'event planning', 'nail', 'nails', 'salon',
   ],
   calm: [
     'calm', 'peaceful', 'serene', 'relaxing', 'relaxed', 'soothing', 'gentle', 'soft', 'wellness', 'wellbeing',
     'mindfulness', 'mindful', 'meditation', 'yoga', 'spa', 'sleep', 'mental health', 'therapy', 'therapist',
-    'nature', 'organic', 'sustainable', 'sustainability', 'eco', 'natural', 'plant', 'plants', 'garden',
     'tea', 'skincare', 'clean', 'airy', 'quiet', 'journal', 'journaling', 'care', 'caring', 'muted', 'pastel',
   ],
   bold: [
     'bold', 'loud', 'energetic', 'energy', 'edgy', 'daring', 'vibrant', 'powerful', 'strong', 'fitness', 'gym',
     'sports', 'sport', 'athletic', 'music', 'festival', 'streetwear', 'media', 'news', 'launch', 'disruptive',
     'crypto', 'web3', 'esports', 'nightlife', 'dynamic', 'rebellious', 'punk', 'neon', 'electric', 'fast',
-    'competitive', 'gaming', 'hype', 'standout', 'stand out',
+    'competitive', 'gaming', 'hype', 'standout', 'stand out', 'restaurant', 'food delivery', 'delivery', 'street food',
   ],
 };
 
@@ -49,7 +59,9 @@ const COLOR_NAMES: Record<string, string> = {
   cobalt: '#0047ab', 'royal blue': '#2952cc', indigo: '#4f46e5',
   purple: '#7c3aed', violet: '#8b5cf6', lavender: '#b8a9e3', lilac: '#c8a2c8', plum: '#6b2d5c',
   magenta: '#c026d3', fuchsia: '#d946ef', pink: '#ec4899', 'hot pink': '#ff3e9a', rose: '#e11d48', blush: '#e8b4b8',
-  brown: '#7c4a2d', chocolate: '#5d3a1a', coffee: '#6f4e37', tan: '#c8a27c', caramel: '#c68e4e',
+  brown: '#7c4a2d', chocolate: '#5d3a1a', tan: '#c8a27c', caramel: '#c68e4e',
+  sand: '#d2bc94', clay: '#b66a50', ochre: '#c8892c', sienna: '#a0522d', mauve: '#b07a95', 'dusty rose': '#c48b8f',
+  periwinkle: '#8b8fd8', slate: '#5f6f82',
 };
 
 type Modifier = 'darker' | 'lighter' | 'brighter' | 'muted';

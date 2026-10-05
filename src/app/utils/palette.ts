@@ -5,7 +5,7 @@ import { Color, colorFromHex } from './colorUtils';
 type Range = [number, number];
 type Harmony = 'analogous' | 'complementary' | 'split' | 'triadic' | 'tetradic' | 'monochrome';
 
-export type VibeId = 'trustworthy' | 'playful' | 'premium' | 'calm' | 'bold';
+export type VibeId = 'trustworthy' | 'playful' | 'premium' | 'calm' | 'earthy' | 'romantic' | 'bold';
 
 interface Tone {
   l: Range; // OKLCH lightness, 0-1
@@ -20,11 +20,22 @@ export interface Vibe {
   primary: Tone;
   support: Tone;
   accent?: Tone; // defaults to the primary tone
-  harmonies: Harmony[];
+  harmonies: Harmony[]; // repeats act as weights
   light: Tone;
   dark: Tone;
-  neutralHue?: number; // tint neutrals with this hue instead of the primary's
+  lightHue?: number; // tint the light neutral with this hue instead of the primary's (e.g. cream)
+  darkHue?: number; // same for the dark neutral (e.g. espresso brown)
+  allowOlive?: boolean; // keep mid-lightness yellow-greens (olive, ochre) instead of lifting them
 }
+
+/*
+ * Tuned against a 97-palette benchmark of curated UI color combinations (Figma's resource library):
+ * - most curated palettes stay within ~100° of hue (analogous/monochrome); wide triadic schemes are rare
+ * - near-whites are usually warm and visibly tinted (cream/ivory, OKLCH C ~0.03-0.05), darks are
+ *   tinted too (navy, forest, oxblood) rather than neutral black
+ * - earthy (terracotta/sand/olive) and romantic (dusty rose/mauve/sage) are major categories
+ * Unlike those mood palettes, ours always include a usable text color and background.
+ */
 
 export const VIBES: Vibe[] = [
   {
@@ -34,9 +45,9 @@ export const VIBES: Vibe[] = [
     hues: [[215, 255], [180, 200]],
     primary: { l: [0.45, 0.58], c: [0.1, 0.16] },
     support: { l: [0.6, 0.8], c: [0.05, 0.11] },
-    harmonies: ['analogous', 'complementary'],
+    harmonies: ['analogous', 'analogous', 'monochrome', 'complementary', 'complementary'],
     light: { l: [0.97, 0.99], c: [0.004, 0.012] },
-    dark: { l: [0.2, 0.27], c: [0.02, 0.05] },
+    dark: { l: [0.2, 0.27], c: [0.03, 0.06] },
   },
   {
     id: 'playful',
@@ -45,8 +56,8 @@ export const VIBES: Vibe[] = [
     hues: [[0, 360]],
     primary: { l: [0.62, 0.74], c: [0.17, 0.23] },
     support: { l: [0.72, 0.88], c: [0.11, 0.19] },
-    harmonies: ['triadic', 'tetradic', 'split'],
-    light: { l: [0.97, 0.99], c: [0.01, 0.025] },
+    harmonies: ['analogous', 'analogous', 'complementary', 'complementary', 'split', 'triadic'],
+    light: { l: [0.97, 0.99], c: [0.012, 0.03] },
     dark: { l: [0.22, 0.3], c: [0.03, 0.06] },
   },
   {
@@ -57,10 +68,10 @@ export const VIBES: Vibe[] = [
     primary: { l: [0.25, 0.38], c: [0.05, 0.11] },
     support: { l: [0.55, 0.72], c: [0.04, 0.09] },
     accent: { l: [0.68, 0.8], c: [0.08, 0.13] },
-    harmonies: ['complementary', 'analogous'],
-    light: { l: [0.95, 0.98], c: [0.01, 0.025] },
-    dark: { l: [0.14, 0.19], c: [0.005, 0.025] },
-    neutralHue: 85,
+    harmonies: ['monochrome', 'analogous', 'complementary', 'complementary'],
+    light: { l: [0.95, 0.98], c: [0.015, 0.035] },
+    dark: { l: [0.14, 0.2], c: [0.02, 0.05] },
+    lightHue: 90,
   },
   {
     id: 'calm',
@@ -69,9 +80,36 @@ export const VIBES: Vibe[] = [
     hues: [[140, 200], [200, 250]],
     primary: { l: [0.58, 0.72], c: [0.04, 0.09] },
     support: { l: [0.75, 0.9], c: [0.02, 0.06] },
-    harmonies: ['analogous', 'monochrome'],
+    harmonies: ['analogous', 'analogous', 'monochrome', 'monochrome'],
     light: { l: [0.97, 0.99], c: [0.005, 0.015] },
-    dark: { l: [0.26, 0.33], c: [0.02, 0.04] },
+    dark: { l: [0.26, 0.33], c: [0.025, 0.05] },
+  },
+  {
+    id: 'earthy',
+    label: 'Earthy',
+    description: 'Terracotta, sand, olive and clay. Coffee, food, home goods.',
+    hues: [[30, 60], [60, 85], [105, 130]],
+    primary: { l: [0.45, 0.62], c: [0.07, 0.13] },
+    support: { l: [0.72, 0.86], c: [0.03, 0.07] },
+    accent: { l: [0.5, 0.66], c: [0.05, 0.1] },
+    harmonies: ['analogous', 'analogous', 'monochrome', 'complementary'],
+    light: { l: [0.95, 0.98], c: [0.025, 0.045] },
+    dark: { l: [0.22, 0.3], c: [0.03, 0.06] },
+    lightHue: 95,
+    darkHue: 50,
+    allowOlive: true,
+  },
+  {
+    id: 'romantic',
+    label: 'Romantic',
+    description: 'Dusty rose, mauve and sage. Weddings, beauty, florals.',
+    hues: [[345, 360], [0, 25], [310, 345]],
+    primary: { l: [0.58, 0.72], c: [0.06, 0.12] },
+    support: { l: [0.8, 0.9], c: [0.025, 0.06] },
+    accent: { l: [0.6, 0.72], c: [0.04, 0.08] },
+    harmonies: ['analogous', 'monochrome', 'complementary', 'complementary'],
+    light: { l: [0.96, 0.985], c: [0.01, 0.025] },
+    dark: { l: [0.24, 0.3], c: [0.04, 0.07] },
   },
   {
     id: 'bold',
@@ -80,7 +118,7 @@ export const VIBES: Vibe[] = [
     hues: [[0, 360]],
     primary: { l: [0.52, 0.65], c: [0.2, 0.26] },
     support: { l: [0.6, 0.85], c: [0.15, 0.22] },
-    harmonies: ['complementary', 'split', 'triadic'],
+    harmonies: ['complementary', 'complementary', 'split', 'analogous', 'triadic'],
     light: { l: [0.97, 0.995], c: [0, 0.01] },
     dark: { l: [0.12, 0.18], c: [0.005, 0.02] },
   },
@@ -142,19 +180,25 @@ export function normalizeHex(input: string): string | null {
 /** Guess the closest vibe for a color, e.g. a founder's existing brand color. */
 export function inferVibe(hex: string): VibeId {
   const { l, c, h } = hexToOklch(hex);
-  if (c < 0.08) return l < 0.45 ? 'premium' : 'calm';
+  const warm = h >= 25 && h <= 125; // terracotta, ochre, sand, olive (sage starts ~129 and stays calm)
+  const rosy = h >= 310 || h <= 20; // rose, mauve, plum
+  if (c < 0.08) return l < 0.45 ? 'premium' : warm ? 'earthy' : rosy && l > 0.55 ? 'romantic' : 'calm';
   if (c > 0.18) return l < 0.66 ? 'bold' : 'playful';
   if (h >= 190 && h <= 265) return 'trustworthy';
   if (l < 0.42) return 'premium';
+  if (warm && c < 0.14) return 'earthy';
+  if (rosy && c < 0.14 && l > 0.55) return 'romantic';
   return 'playful';
 }
 
-// Yellows and chartreuse only look clean when light; neutrals in that range turn muddy.
+// Yellows and chartreuse look clean when light and muddy at mid lightness, except in earthy
+// palettes where olive and ochre are the point. Light neutrals may be cream; darker ones stay clean.
 const isYellowish = (h: number) => h >= 70 && h <= 135;
 
-function tame(color: Oklch, neutral = false): Oklch {
+function tame(color: Oklch, { neutral = false, allowOlive = false } = {}): Oklch {
   if (!isYellowish(color.h)) return color;
-  if (neutral) return { ...color, c: Math.min(color.c, 0.012) };
+  if (neutral) return { ...color, c: Math.min(color.c, color.l > 0.9 ? 0.05 : 0.012) };
+  if (allowOlive) return color;
   return color.c > 0.06 ? { ...color, l: Math.max(color.l, 0.8) } : color;
 }
 
@@ -175,6 +219,8 @@ export function generatePalette({ vibe, baseHex, count = 5, rand = Math.random }
   const size = Math.min(MAX_COLORS, Math.max(MIN_COLORS, Math.round(count)));
   const v = getVibe(vibe ?? (baseHex ? inferVibe(baseHex) : pick(VIBES, rand).id));
   const harmony = pick(v.harmonies, rand);
+  const olive = { allowOlive: v.allowOlive };
+  const neutral = { neutral: true };
   const [secondaryOffset, accentOffset] = HARMONY_OFFSETS[harmony];
   const jitter = () => (rand() - 0.5) * 16;
 
@@ -187,11 +233,12 @@ export function generatePalette({ vibe, baseHex, count = 5, rand = Math.random }
     primaryTone = { l: [primary.l - 0.08, primary.l + 0.08], c: [primary.c * 0.8, primary.c * 1.1] };
     supportTone = { l: [Math.max(primary.l, 0.6), 0.85], c: [primary.c * 0.4, primary.c * 0.8] };
   } else {
-    primary = tame({ l: between(v.primary.l, rand), c: between(v.primary.c, rand), h: between(pick(v.hues, rand), rand) });
+    primary = tame({ l: between(v.primary.l, rand), c: between(v.primary.c, rand), h: between(pick(v.hues, rand), rand) }, olive);
   }
 
   const accentTone = baseHex ? primaryTone : v.accent ?? primaryTone;
-  const neutralHue = v.neutralHue ?? primary.h;
+  const lightHue = v.lightHue ?? primary.h;
+  const darkHue = v.darkHue ?? primary.h;
   const make = (slot: Slot): string => {
     switch (slot) {
       case 'primary':
@@ -201,19 +248,19 @@ export function generatePalette({ vibe, baseHex, count = 5, rand = Math.random }
           l: between(supportTone.l, rand),
           c: between(supportTone.c, rand),
           h: wrapHue(primary.h + secondaryOffset + jitter()),
-        }));
+        }, olive));
       case 'accent':
         return oklchToHex(tame({
           l: between(accentTone.l, rand),
           c: between(accentTone.c, rand),
           h: wrapHue(primary.h + accentOffset + jitter()),
-        }));
+        }, olive));
       case 'muted':
-        return oklchToHex(tame({ l: between([0.6, 0.75], rand), c: between([0.02, 0.05], rand), h: primary.h }, true));
+        return oklchToHex(tame({ l: between([0.6, 0.75], rand), c: between([0.02, 0.05], rand), h: primary.h }, neutral));
       case 'light':
-        return oklchToHex(tame({ l: between(v.light.l, rand), c: between(v.light.c, rand), h: neutralHue }, true));
+        return oklchToHex(tame({ l: between(v.light.l, rand), c: between(v.light.c, rand), h: lightHue }, neutral));
       case 'dark':
-        return oklchToHex(tame({ l: between(v.dark.l, rand), c: between(v.dark.c, rand), h: neutralHue }, true));
+        return oklchToHex(tame({ l: between(v.dark.l, rand), c: between(v.dark.c, rand), h: darkHue }, neutral));
     }
   };
 

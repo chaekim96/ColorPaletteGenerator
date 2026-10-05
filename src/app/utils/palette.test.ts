@@ -117,3 +117,57 @@ describe('lockedPrimary', () => {
     expect(lockedPrimary(palette)).toBe(palette[1].hex);
   });
 });
+
+// Shape targets measured from 97 curated UI palettes (Figma's color-combinations library):
+// ~55% keep chromatic colors within 100° of hue, ~7% use wide (>200°) schemes,
+// near-whites are tinted (median OKLCH C ~0.05) and darks are tinted (median C ~0.065).
+describe('palette shape vs curated benchmark', () => {
+  const hueSpread = (hexes: string[]) => {
+    const hues = hexes.map(hexToOklch).filter(c => c.c >= 0.035).map(c => c.h).sort((a, b) => a - b);
+    if (hues.length < 2) return 0;
+    const gaps = hues.map((h, i) => (i === hues.length - 1 ? hues[0] + 360 - h : hues[i + 1] - h));
+    return 360 - Math.max(...gaps);
+  };
+  const sample = VIBES.flatMap(v => Array.from({ length: 200 }, () => generatePalette({ vibe: v.id, count: 5 }).map(c => c.hex)));
+  const share = (pred: (p: string[]) => boolean) => sample.filter(pred).length / sample.length;
+
+  it('favors analogous and monochrome schemes like curated palettes', () => {
+    expect(share(p => hueSpread(p) <= 100)).toBeGreaterThan(0.4);
+    expect(share(p => hueSpread(p) > 200)).toBeLessThan(0.15);
+  });
+
+  it('uses warm cream backgrounds for earthy and premium palettes', () => {
+    for (const vibe of ['earthy', 'premium'] as const) {
+      for (let i = 0; i < 100; i++) {
+        const light = hexToOklch(generatePalette({ vibe, count: 5 })[4].hex);
+        expect(light.c).toBeGreaterThan(0.01);
+        expect(light.h).toBeGreaterThan(70);
+        expect(light.h).toBeLessThan(115);
+      }
+    }
+  });
+
+  it('uses tinted darks (navy, espresso, plum) rather than neutral black where it fits', () => {
+    for (const vibe of ['trustworthy', 'premium', 'earthy', 'romantic'] as const) {
+      const darks = Array.from({ length: 100 }, () => hexToOklch(generatePalette({ vibe, count: 5 })[0].hex).c);
+      expect(darks.reduce((a, b) => a + b) / darks.length).toBeGreaterThan(0.02);
+    }
+  });
+
+  it('keeps olive and ochre for earthy palettes but lifts muddy yellow-greens elsewhere', () => {
+    const midYellowGreen = (vibe: (typeof VIBES)[number]['id']) => Array.from({ length: 300 }, () => generatePalette({ vibe, count: 5 }))
+      .flatMap(p => p.slice(1, 4).map(c => hexToOklch(c.hex)))
+      .some(c => c.h > 75 && c.h < 130 && c.c > 0.06 && c.l < 0.7);
+    expect(midYellowGreen('earthy')).toBe(true);
+    expect(midYellowGreen('bold')).toBe(false);
+  });
+});
+
+describe('inferVibe for new vibes', () => {
+  it('reads terracotta and olive as earthy, dusty rose as romantic', () => {
+    expect(inferVibe('#c0633f')).toBe('earthy'); // terracotta
+    expect(inferVibe('#6b7a2f')).toBe('earthy'); // olive
+    expect(inferVibe('#c48b8f')).toBe('romantic'); // dusty rose
+    expect(inferVibe('#b07a95')).toBe('romantic'); // mauve
+  });
+});

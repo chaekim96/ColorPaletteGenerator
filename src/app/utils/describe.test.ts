@@ -11,6 +11,20 @@ describe('describeToSettings', () => {
     expect(describeToSettings('streetwear drop, loud and edgy').vibe).toBe('bold');
   });
 
+  it('recognizes earthy and romantic projects', () => {
+    expect(describeToSettings('neighborhood coffee shop and bakery').vibe).toBe('earthy');
+    expect(describeToSettings('handmade ceramics and pottery').vibe).toBe('earthy');
+    expect(describeToSettings('wedding florist').vibe).toBe('romantic');
+    expect(describeToSettings('bridal stationery and invitations').vibe).toBe('romantic');
+    expect(describeToSettings('food delivery app').vibe).toBe('bold');
+  });
+
+  it('knows earthy and romantic color names', () => {
+    expect(describeToSettings('terracotta and sand').baseHex).toBe('#c8553d');
+    expect(describeToSettings('dusty rose').baseHex).toBe('#c48b8f');
+    expect(describeToSettings('mauve').baseHex).toBe('#b07a95');
+  });
+
   it('prefers the more specific phrase on ties', () => {
     expect(describeToSettings('mental health journaling').vibe).toBe('calm');
   });

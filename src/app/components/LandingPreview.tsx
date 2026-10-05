@@ -6,6 +6,7 @@ import { PairCheck } from '../utils/contrast';
 import { ContrastPanel } from './ContrastPanel';
 
 interface LandingPreviewProps {
+  name: string;
   roles: Roles;
   fontPair: FontPair;
   mode: Mode;
@@ -23,7 +24,7 @@ const FEATURES = [
 ];
 
 // Sample landing page painted with the palette's auto-assigned roles and the current font pairing
-export function LandingPreview({ roles, fontPair, mode, onModeChange, checks, onApplyFix }: LandingPreviewProps) {
+export function LandingPreview({ name, roles, fontPair, mode, onModeChange, checks, onApplyFix }: LandingPreviewProps) {
   const heading: CSSProperties = { fontFamily: fontStack(fontPair.heading), fontWeight: fontPair.heading.weight };
   const body: CSSProperties = { fontFamily: fontStack(fontPair.body), fontWeight: fontPair.body.weight };
   const primaryButton: CSSProperties = { backgroundColor: roles.primary, color: roles.onPrimary, fontWeight: 600 };
@@ -33,7 +34,8 @@ export function LandingPreview({ roles, fontPair, mode, onModeChange, checks, on
       <div className="max-w-5xl mx-auto space-y-4">
         {/* Role legend */}
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <ul className="flex flex-wrap gap-2" aria-label="Color roles">
+          <ul className="flex flex-wrap items-center gap-2" aria-label="Color roles">
+            <li className="text-sm font-medium text-gray-900 mr-1">{name}</li>
             {LEGEND.filter(role => role !== 'primaryText' || roles.primaryText !== roles.primary).map(role => (
               <li key={role} className="flex items-center gap-2 bg-white border rounded-md px-2 py-1 text-xs">
                 <span className="w-4 h-4 rounded border border-black/10" style={{ backgroundColor: roles[role] }} />

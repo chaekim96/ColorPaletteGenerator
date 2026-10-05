@@ -8,7 +8,10 @@ export interface ExportInput {
   light: Roles;
   dark: Roles;
   fonts: FontPair;
+  name?: string;
 }
+
+const header = (name?: string) => (name ? `/* ${name} */\n` : '');
 
 // [token name, role, comment]
 const TOKENS: [string, keyof Roles, string][] = [
@@ -33,8 +36,8 @@ const tokenLines = (roles: Roles, prefix: string, indent: string, withComments: 
 const fontLines = (fonts: FontPair, prefix: string, indent: string) =>
   `${indent}--${prefix}heading: ${fontStack(fonts.heading)};\n${indent}--${prefix}body: ${fontStack(fonts.body)};`;
 
-export function cssVariables({ palette, light, dark, fonts }: ExportInput): string {
-  return `:root {
+export function cssVariables({ palette, light, dark, fonts, name }: ExportInput): string {
+  return `${header(name)}:root {
   /* Palette */
 ${palette.map((hex, i) => `  --palette-${i + 1}: ${hex};`).join('\n')}
 
@@ -69,8 +72,8 @@ a {
 `;
 }
 
-export function tailwindV4({ palette, light, dark, fonts }: ExportInput): string {
-  return `@import "tailwindcss";
+export function tailwindV4({ palette, light, dark, fonts, name }: ExportInput): string {
+  return `${header(name)}@import "tailwindcss";
 
 /* Use as bg-primary, text-primary-foreground, text-primary-text, font-heading... */
 @theme {
@@ -96,9 +99,9 @@ const v3FontFamily = (font: FontSpec) => {
   return `[${name}, ${fallback.join(', ')}]`;
 };
 
-export function tailwindV3({ palette, light, fonts }: ExportInput): string {
+export function tailwindV3({ palette, light, fonts, name }: ExportInput): string {
   const c = (role: keyof Roles) => `'${light[role]}'`;
-  return `/** @type {import('tailwindcss').Config} */
+  return `${header(name)}/** @type {import('tailwindcss').Config} */
 module.exports = {
   theme: {
     extend: {

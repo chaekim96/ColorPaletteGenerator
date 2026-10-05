@@ -14,6 +14,7 @@ import { ExportDialog } from './components/ExportDialog';
 import { describeToSettings } from './utils/describe';
 import { copyToClipboard } from './utils/clipboard';
 import { decodeShareState, encodeShareState } from './utils/shareUrl';
+import { paletteName } from './utils/names';
 import { downloadPaletteImage } from './utils/imageExport';
 import { Toaster } from './components/ui/sonner';
 import { toast } from 'sonner';
@@ -47,6 +48,11 @@ export default function App() {
   const primary = primaryColor(colors);
   const paletteVibe: VibeId | undefined = vibe ?? (primary ? inferVibe(primary.hex) : undefined);
   const fontPair = getFontPair(fontPairId);
+  const name = primary ? paletteName(colors.map(c => c.hex), primary.hex, vibe ?? undefined) : '';
+
+  useEffect(() => {
+    document.title = name ? `${name} · Color Palette Generator` : 'Color Palette Generator';
+  }, [name]);
 
   // Switch fonts only when the current pairing no longer fits the palette's vibe
   useEffect(() => {
@@ -181,7 +187,7 @@ export default function App() {
 
   const downloadPng = async () => {
     try {
-      await downloadPaletteImage(colors);
+      await downloadPaletteImage(colors, `${name.toLowerCase().replace(/\s+/g, '-') || 'color-palette'}.png`);
       toast.success('Palette image exported successfully!');
     } catch (error) {
       console.error('Export failed:', error);
@@ -196,8 +202,8 @@ export default function App() {
     if (success) {
       toast.success('Link copied', {
         description: view === 'preview'
-          ? 'Opens this palette, fonts and the preview page.'
-          : 'Opens this palette and font pairing.',
+          ? `Opens ${name} with its fonts and the preview page.`
+          : `Opens ${name} and its font pairing.`,
       });
     } else {
       toast.error('Failed to copy link');
@@ -259,6 +265,7 @@ export default function App() {
       
       {view === 'preview' && fontPair && roles ? (
         <LandingPreview
+          name={name}
           roles={roles}
           fontPair={fontPair}
           mode={previewMode}
@@ -292,6 +299,7 @@ export default function App() {
             light: assignRoles(colors.map(c => c.hex), 'light'),
             dark: assignRoles(colors.map(c => c.hex), 'dark'),
             fonts: fontPair,
+            name,
           }}
         />
       )}
@@ -303,6 +311,8 @@ export default function App() {
       {colors.length > 0 && view === 'palette' && (
         <div className="fixed bottom-32 left-4 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg border p-4 max-w-sm">
           <p className="text-sm text-gray-600">
+            <span className="font-medium text-gray-900">{name}</span>
+            <span className="mx-2 text-gray-300">·</span>
             Press <kbd className="px-1 py-0.5 bg-gray-100 rounded text-xs">Space</kbd> to generate, <kbd className="px-1 py-0.5 bg-gray-100 rounded text-xs">1</kbd>–<kbd className="px-1 py-0.5 bg-gray-100 rounded text-xs">{colors.length}</kbd> to lock a color
           </p>
         </div>
