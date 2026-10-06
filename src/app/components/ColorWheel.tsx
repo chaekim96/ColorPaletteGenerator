@@ -10,12 +10,13 @@ interface ColorWheelProps {
   onColorSelect: (hex: string) => void; // '' = cleared
   selectedColor?: string;
   size?: number;
+  showControls?: boolean; // Reset button + label; off when the host provides its own
 }
 
 const LIGHTNESS = 50;
 
 // Hue/saturation wheel. Drag updates locally; the palette only regenerates on release.
-export function ColorWheel({ onColorSelect, selectedColor, size = 120 }: ColorWheelProps) {
+export function ColorWheel({ onColorSelect, selectedColor, size = 120, showControls = true }: ColorWheelProps) {
   const wheelRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [hue, setHue] = useState(0);
@@ -132,7 +133,7 @@ export function ColorWheel({ onColorSelect, selectedColor, size = 120 }: ColorWh
         )}
       </div>
 
-      <div className="flex flex-col gap-2">
+      {showControls && <div className="flex flex-col gap-2">
         <Button
           variant="outline"
           size="sm"
@@ -149,7 +150,7 @@ export function ColorWheel({ onColorSelect, selectedColor, size = 120 }: ColorWh
             Base Color
           </div>
         )}
-      </div>
+      </div>}
     </div>
   );
 }

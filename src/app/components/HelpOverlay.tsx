@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import { Keyboard, X } from 'lucide-react';
+import { useEffect } from 'react';
+import { X } from 'lucide-react';
 import { Button } from './ui/button';
 
-export function HelpOverlay() {
-  const [isVisible, setIsVisible] = useState(false);
+// Shortcut sheet; opened from the toolbar's help button or the ? key
+export function HelpOverlay({ open: isVisible, onOpenChange: setIsVisible }: { open: boolean; onOpenChange: (open: boolean) => void }) {
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
@@ -19,7 +19,7 @@ export function HelpOverlay() {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [isVisible]);
+  }, [isVisible, setIsVisible]);
 
   const shortcuts = [
     { key: 'Spacebar', action: 'Generate new palette (keeps locked colors)' },
@@ -33,21 +33,7 @@ export function HelpOverlay() {
     { key: 'Esc', action: 'Close help' },
   ];
 
-  if (!isVisible) {
-    return (
-      <div className="fixed bottom-32 right-4 z-20">
-        <Button 
-          variant="outline" 
-          size="sm"
-          onClick={() => setIsVisible(true)}
-          className="gap-2 bg-white/90 backdrop-blur-sm"
-        >
-          <Keyboard className="h-4 w-4" />
-          Help
-        </Button>
-      </div>
-    );
-  }
+  if (!isVisible) return null;
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
@@ -72,7 +58,7 @@ export function HelpOverlay() {
         
         <div className="mt-6 pt-4 border-t">
           <p className="text-xs text-gray-500">
-            Pick a vibe, or enter your brand color as the base (it stays in the palette exactly). Lock the colors you like and press Space to regenerate the rest. Lock the 2nd color and new palettes are built around it. Click any value to copy it. The slider sets how many colors (3-6).
+            Describe your project or pick a mood. Add your brand color and it stays exactly as entered. Lock the colors you like and press Space to regenerate the rest. Each color is labeled with what it's for; click a hex code to copy it.
           </p>
         </div>
       </div>

@@ -130,3 +130,12 @@ export function assignRoles(hexes: string[], mode: Mode = 'light'): Roles {
     accentText: textShade(accent, [backgroundHex], 3, textHex),
   };
 }
+
+/** Plain-English label for a palette color, matching how the preview and exports use it. */
+export function swatchRole(hex: string, roles: Roles): { label: string; use: string } {
+  if (hex === roles.background) return { label: 'Background', use: 'Page background' };
+  if (hex === roles.text) return { label: 'Text', use: 'Headings and body text' };
+  if (hex === roles.primary) return { label: 'Primary', use: 'Buttons and brand' };
+  if (hex === roles.accent) return { label: 'Accent', use: 'Badges and highlights' };
+  return { label: 'Supporting', use: 'Secondary details' };
+}

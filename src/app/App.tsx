@@ -8,7 +8,7 @@ import { getFontPair, loadFontPair, pickPair } from './utils/fonts';
 import { FontBar } from './components/FontBar';
 import { LandingPreview } from './components/LandingPreview';
 import { View } from './components/PaletteControls';
-import { assignRoles, Mode, Roles } from './utils/roles';
+import { assignRoles, Mode, Roles, swatchRole } from './utils/roles';
 import { checkRoles, PairCheck } from './utils/contrast';
 import { ExportDialog } from './components/ExportDialog';
 import { describeToSettings } from './utils/describe';
@@ -42,6 +42,15 @@ export default function App() {
   const [view, setView] = useState<View>(initial.view ?? 'palette');
   const [previewMode, setPreviewMode] = useState<Mode>(initial.mode ?? 'light');
   const [exportOpen, setExportOpen] = useState(false);
+  const [helpOpen, setHelpOpen] = useState(false);
+  // First-run hint; hidden once dismissed or after the first Space press
+  const [showHint, setShowHint] = useState(() => {
+    try { return localStorage.getItem('cpg:hint-dismissed') !== '1'; } catch { return true; }
+  });
+  const dismissHint = () => {
+    setShowHint(false);
+    try { localStorage.setItem('cpg:hint-dismissed', '1'); } catch { /* storage blocked: hide for this visit */ }
+  };
   const keepSharedFonts = useRef(Boolean(initial.fonts));
 
   // The vibe the palette actually reads as: the chosen one, or inferred from its primary color
@@ -149,6 +158,7 @@ export default function App() {
           event.preventDefault();
           if (event.repeat) return;
           generateNewPalette();
+          if (showHint) dismissHint();
           break;
         case 'KeyP':
           event.preventDefault();
@@ -261,6 +271,9 @@ export default function App() {
         selectedBaseColor={selectedBaseColor}
         colorCount={colorCount}
         onColorCountChange={handleColorCountChange}
+        onHelp={() => setHelpOpen(true)}
+        showTip={showHint && view === 'palette'}
+        onDismissTip={dismissHint}
       />
       
       {view === 'preview' && fontPair && roles ? (
@@ -282,12 +295,13 @@ export default function App() {
               onToggleLock={toggleColorLock}
               index={index}
               isGradientMode={isGradientMode}
+              role={roles ? swatchRole(color.hex, roles) : undefined}
             />
           ))}
         </div>
       )}
 
-      {fontPair && paletteVibe && <FontBar pair={fontPair} vibe={paletteVibe} onShuffle={shuffleFonts} />}
+      {fontPair && paletteVibe && <FontBar name={name} pair={fontPair} vibe={paletteVibe} onShuffle={shuffleFonts} />}
 
       {fontPair && colors.length > 0 && (
         <ExportDialog
@@ -304,19 +318,9 @@ export default function App() {
         />
       )}
 
-      <HelpOverlay />
+      <HelpOverlay open={helpOpen} onOpenChange={setHelpOpen} />
       <Toaster />
 
-      {/* Instructions overlay for first-time users */}
-      {colors.length > 0 && view === 'palette' && (
-        <div className="fixed bottom-32 left-4 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg border p-4 max-w-sm">
-          <p className="text-sm text-gray-600">
-            <span className="font-medium text-gray-900">{name}</span>
-            <span className="mx-2 text-gray-300">·</span>
-            Press <kbd className="px-1 py-0.5 bg-gray-100 rounded text-xs">Space</kbd> to generate, <kbd className="px-1 py-0.5 bg-gray-100 rounded text-xs">1</kbd>–<kbd className="px-1 py-0.5 bg-gray-100 rounded text-xs">{colors.length}</kbd> to lock a color
-          </p>
-        </div>
-      )}
     </div>
   );
 }

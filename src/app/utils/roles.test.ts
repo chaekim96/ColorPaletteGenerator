@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { assignRoles, contrast } from './roles';
+import { assignRoles, contrast, swatchRole } from './roles';
 import { generatePalette, hexToOklch, VIBES } from './palette';
 
 describe('assignRoles', () => {
@@ -47,5 +47,13 @@ describe('assignRoles', () => {
     expect(roles.background).toBe('#ffffff');
     expect(roles.text).toBe('#000000');
     expect(roles.primary).toBe('#000000');
+  });
+});
+
+describe('swatchRole', () => {
+  it('labels every color of a generated palette, with exactly one of each main role', () => {
+    const hexes = ['#111827', '#2563eb', '#93c5fd', '#f97316', '#f8fafc'];
+    const roles = assignRoles(hexes);
+    expect(hexes.map(h => swatchRole(h, roles).label)).toEqual(['Text', 'Primary', 'Supporting', 'Accent', 'Background']);
   });
 });

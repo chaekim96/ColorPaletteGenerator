@@ -5,6 +5,7 @@ import { FontPair, FontSpec, fontStack } from '../utils/fonts';
 import { getVibe, VibeId } from '../utils/palette';
 
 interface FontBarProps {
+  name: string;
   pair: FontPair;
   vibe: VibeId;
   onShuffle: () => void;
@@ -14,7 +15,7 @@ const WEIGHT_NAMES: Record<number, string> = { 400: 'Regular', 500: 'Medium', 60
 const describeFont = (font: FontSpec) => `${font.family} ${WEIGHT_NAMES[font.weight] ?? font.weight}`;
 
 // Docked under the swatches: live sample of the heading/body pairing that matches the palette's vibe
-export function FontBar({ pair, vibe, onShuffle }: FontBarProps) {
+export function FontBar({ name, pair, vibe, onShuffle }: FontBarProps) {
   return (
     <section aria-label="Font pairing" className="h-28 shrink-0 bg-white border-t px-6 flex items-center gap-6">
       <div className="flex-1 min-w-0">
@@ -22,7 +23,7 @@ export function FontBar({ pair, vibe, onShuffle }: FontBarProps) {
           className="truncate text-gray-900"
           style={{ fontFamily: fontStack(pair.heading), fontWeight: pair.heading.weight, fontSize: '1.75rem', lineHeight: 1.2 }}
         >
-          A brand that looks the part
+          {name || 'A brand that looks the part'}
         </p>
         <p
           className="truncate text-gray-600 mt-1"
