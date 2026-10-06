@@ -16,7 +16,6 @@ import { copyToClipboard } from './utils/clipboard';
 import { decodeShareState, encodeShareState } from './utils/shareUrl';
 import { paletteName } from './utils/names';
 import { downloadPaletteImage } from './utils/imageExport';
-import { Toaster } from './components/ui/sonner';
 import { toast } from 'sonner';
 
 interface PaletteSettings {
@@ -25,10 +24,9 @@ interface PaletteSettings {
   count: number;
 }
 
-// Read once at startup: a shared link restores palette, fonts, vibe, base color and view
-const initial = decodeShareState(window.location.search);
-
-export default function App() {
+export function App() {
+  // Read once when the generator opens: a shared link restores palette, fonts, vibe, base and view
+  const [initial] = useState(() => decodeShareState(window.location.search));
   const [colors, setColors] = useState<Color[]>(() =>
     initial.colors
       ? initial.colors.map(hex => colorFromHex(hex))
@@ -128,7 +126,7 @@ export default function App() {
 
   // Keep the address bar in sync so reloads and copied URLs keep the current state
   useEffect(() => {
-    window.history.replaceState(null, '', `${window.location.pathname}?${shareQuery}`);
+    window.history.replaceState(null, '', `/generate?${shareQuery}`);
   }, [shareQuery]);
 
   // Keyboard event handlers
@@ -206,7 +204,7 @@ export default function App() {
   };
 
   const sharePalette = async () => {
-    const url = `${window.location.origin}${window.location.pathname}?${shareQuery}`;
+    const url = `${window.location.origin}/generate?${shareQuery}`;
 
     const success = await copyToClipboard(url);
     if (success) {
@@ -319,7 +317,6 @@ export default function App() {
       )}
 
       <HelpOverlay open={helpOpen} onOpenChange={setHelpOpen} />
-      <Toaster />
 
     </div>
   );

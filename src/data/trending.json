@@ -1,0 +1,1307 @@
+{
+  "scannedAt": "2026-10-06",
+  "sites": [
+    {
+      "name": "Linear",
+      "url": "https://linear.app",
+      "category": "Developer tools",
+      "colors": [
+        "#08090a",
+        "#8a8f98",
+        "#f7f8f8"
+      ],
+      "mode": "dark"
+    },
+    {
+      "name": "Vercel",
+      "url": "https://vercel.com",
+      "category": "Developer tools",
+      "colors": [
+        "#171717",
+        "#4d4d4d",
+        "#fafafa"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Supabase",
+      "url": "https://supabase.com",
+      "category": "Developer tools",
+      "colors": [
+        "#030303",
+        "#0e7e4e",
+        "#fdfdfd"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Raycast",
+      "url": "https://www.raycast.com",
+      "category": "Developer tools",
+      "colors": [
+        "#07080a",
+        "#9c9c9d",
+        "#ffffff"
+      ],
+      "mode": "dark"
+    },
+    {
+      "name": "Resend",
+      "url": "https://resend.com",
+      "category": "Developer tools",
+      "colors": [
+        "#000000",
+        "#a1a4a5",
+        "#f0f0f0"
+      ],
+      "mode": "dark"
+    },
+    {
+      "name": "PostHog",
+      "url": "https://posthog.com",
+      "category": "Developer tools",
+      "colors": [
+        "#111111",
+        "#cd8407",
+        "#b62ad9",
+        "#eb9d2a",
+        "#eeefe9"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Sentry",
+      "url": "https://sentry.io",
+      "category": "Developer tools",
+      "colors": [
+        "#1f1633",
+        "#6a5fc1",
+        "#79628c",
+        "#fd44b0",
+        "#ffffff"
+      ],
+      "mode": "dark"
+    },
+    {
+      "name": "Railway",
+      "url": "https://railway.com",
+      "category": "Developer tools",
+      "colors": [
+        "#13111c",
+        "#553f83",
+        "#ffffff"
+      ],
+      "mode": "dark"
+    },
+    {
+      "name": "Netlify",
+      "url": "https://www.netlify.com",
+      "category": "Developer tools",
+      "colors": [
+        "#12181f",
+        "#32e6e2",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Replit",
+      "url": "https://replit.com",
+      "category": "Developer tools",
+      "colors": [
+        "#1a1a1a",
+        "#ff3c00",
+        "#f9aa8b",
+        "#faf6f1"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Cursor",
+      "url": "https://cursor.com",
+      "category": "Developer tools",
+      "colors": [
+        "#26251e",
+        "#c08532",
+        "#f7f7f4"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Warp",
+      "url": "https://www.warp.dev",
+      "category": "Developer tools",
+      "colors": [
+        "#1a1522",
+        "#2a1eff",
+        "#eef17c",
+        "#fbf9fe"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Clerk",
+      "url": "https://clerk.com",
+      "category": "Developer tools",
+      "colors": [
+        "#000000",
+        "#131316",
+        "#f7f7f8"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Neon",
+      "url": "https://neon.com",
+      "category": "Developer tools",
+      "colors": [
+        "#000000",
+        "#111315",
+        "#ffffff"
+      ],
+      "mode": "dark"
+    },
+    {
+      "name": "Render",
+      "url": "https://render.com",
+      "category": "Developer tools",
+      "colors": [
+        "#0d0d0d",
+        "#8a05ff",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Postman",
+      "url": "https://www.postman.com",
+      "category": "Developer tools",
+      "colors": [
+        "#0e0704",
+        "#e0531f",
+        "#ff6c37",
+        "#fff0de"
+      ],
+      "mode": "dark"
+    },
+    {
+      "name": "GitLab",
+      "url": "https://about.gitlab.com",
+      "category": "Developer tools",
+      "colors": [
+        "#171321",
+        "#7759c2",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Fly.io",
+      "url": "https://fly.io",
+      "category": "Developer tools",
+      "colors": [
+        "#000000",
+        "#7c3aed",
+        "#686082",
+        "#281950",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Stripe",
+      "url": "https://stripe.com",
+      "category": "Fintech",
+      "colors": [
+        "#061b31",
+        "#533afd",
+        "#81b81a",
+        "#2d2564",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Ramp",
+      "url": "https://ramp.com",
+      "category": "Fintech",
+      "colors": [
+        "#0c0a08",
+        "#e4f222",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Brex",
+      "url": "https://www.brex.com",
+      "category": "Fintech",
+      "colors": [
+        "#15191e",
+        "#ff3d00",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Mercury",
+      "url": "https://mercury.com",
+      "category": "Fintech",
+      "colors": [
+        "#171721",
+        "#5266eb",
+        "#fcfcfa"
+      ],
+      "mode": "dark"
+    },
+    {
+      "name": "Wise",
+      "url": "https://wise.com",
+      "category": "Fintech",
+      "colors": [
+        "#0e0f0c",
+        "#9fe870",
+        "#163300",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Revolut",
+      "url": "https://www.revolut.com",
+      "category": "Fintech",
+      "colors": [
+        "#1f1f1f",
+        "#000000",
+        "#f7f7f7"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Monzo",
+      "url": "https://monzo.com",
+      "category": "Fintech",
+      "colors": [
+        "#000000",
+        "#091723",
+        "#f2f8f3"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Plaid",
+      "url": "https://plaid.com",
+      "category": "Fintech",
+      "colors": [
+        "#00172e",
+        "#05565c",
+        "#10d1b7",
+        "#5c7695",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Chime",
+      "url": "https://www.chime.com",
+      "category": "Fintech",
+      "colors": [
+        "#052316",
+        "#1ec677",
+        "#027443",
+        "#0d4029",
+        "#ffffff"
+      ],
+      "mode": "dark"
+    },
+    {
+      "name": "Robinhood",
+      "url": "https://robinhood.com",
+      "category": "Fintech",
+      "colors": [
+        "#000000",
+        "#ccff00",
+        "#ffffff"
+      ],
+      "mode": "dark"
+    },
+    {
+      "name": "Gusto",
+      "url": "https://gusto.com",
+      "category": "Fintech",
+      "colors": [
+        "#1c1b1a",
+        "#1e7676",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Rippling",
+      "url": "https://www.rippling.com",
+      "category": "Fintech",
+      "colors": [
+        "#000000",
+        "#666666",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Pilot",
+      "url": "https://pilot.com",
+      "category": "Fintech",
+      "colors": [
+        "#281350",
+        "#f891ff",
+        "#e7f9ff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Carta",
+      "url": "https://carta.com",
+      "category": "Fintech",
+      "colors": [
+        "#1a1a1a",
+        "#656b6b",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Klarna",
+      "url": "https://www.klarna.com",
+      "category": "Fintech",
+      "colors": [
+        "#0b051d",
+        "#ffa8cd",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Notion",
+      "url": "https://www.notion.com",
+      "category": "Productivity",
+      "colors": [
+        "#000000",
+        "#0075de",
+        "#005bab",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Figma",
+      "url": "https://www.figma.com",
+      "category": "Productivity",
+      "colors": [
+        "#000000",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Miro",
+      "url": "https://miro.com",
+      "category": "Productivity",
+      "colors": [
+        "#000000",
+        "#3859ff",
+        "#f0f0f0"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Loom",
+      "url": "https://www.loom.com",
+      "category": "Productivity",
+      "colors": [
+        "#101214",
+        "#1868db",
+        "#ffab00",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Airtable",
+      "url": "https://www.airtable.com",
+      "category": "Productivity",
+      "colors": [
+        "#161616",
+        "#03330b",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Asana",
+      "url": "https://asana.com",
+      "category": "Productivity",
+      "colors": [
+        "#0d0d0d",
+        "#3d3d3d",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "monday.com",
+      "url": "https://monday.com",
+      "category": "Productivity",
+      "colors": [
+        "#000000",
+        "#6161ff",
+        "#d9d7ff",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "ClickUp",
+      "url": "https://clickup.com",
+      "category": "Productivity",
+      "colors": [
+        "#202020",
+        "#646464",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Calendly",
+      "url": "https://calendly.com",
+      "category": "Productivity",
+      "colors": [
+        "#071a31",
+        "#84c1ff",
+        "#c3dffe",
+        "#fcfbf8"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Cal.com",
+      "url": "https://cal.com",
+      "category": "Productivity",
+      "colors": [
+        "#242424",
+        "#898989",
+        "#f4f4f4"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Superhuman",
+      "url": "https://superhuman.com",
+      "category": "Productivity",
+      "colors": [
+        "#292827",
+        "#714cb6",
+        "#d4c7ff",
+        "#0c4243",
+        "#f7f5f2"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Slack",
+      "url": "https://slack.com",
+      "category": "Productivity",
+      "colors": [
+        "#000000",
+        "#730394",
+        "#592466",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Zoom",
+      "url": "https://www.zoom.com",
+      "category": "Productivity",
+      "colors": [
+        "#00053d",
+        "#0b5cff",
+        "#4488ff",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Pitch",
+      "url": "https://pitch.com",
+      "category": "Productivity",
+      "colors": [
+        "#0c021c",
+        "#c4ee87",
+        "#5318eb",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Canva",
+      "url": "https://www.canva.com",
+      "category": "Productivity",
+      "colors": [
+        "#0f1015",
+        "#182c59",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Framer",
+      "url": "https://www.framer.com",
+      "category": "Productivity",
+      "colors": [
+        "#000000",
+        "#0099ff",
+        "#ffffff"
+      ],
+      "mode": "dark"
+    },
+    {
+      "name": "Webflow",
+      "url": "https://webflow.com",
+      "category": "Productivity",
+      "colors": [
+        "#080808",
+        "#146ef5",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Typeform",
+      "url": "https://www.typeform.com",
+      "category": "Productivity",
+      "colors": [
+        "#2a222b",
+        "#eccffa",
+        "#faf9fb"
+      ],
+      "mode": "dark"
+    },
+    {
+      "name": "Tally",
+      "url": "https://tally.so",
+      "category": "Productivity",
+      "colors": [
+        "#000000",
+        "#0070d7",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Grammarly",
+      "url": "https://www.grammarly.com",
+      "category": "Productivity",
+      "colors": [
+        "#000000",
+        "#027e6f",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Dropbox",
+      "url": "https://www.dropbox.com",
+      "category": "Productivity",
+      "colors": [
+        "#1e1919",
+        "#0061fe",
+        "#0044af",
+        "#f7f5f2"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Anthropic",
+      "url": "https://www.anthropic.com",
+      "category": "AI",
+      "colors": [
+        "#141413",
+        "#f0eee6"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "OpenAI",
+      "url": "https://openai.com",
+      "category": "AI",
+      "colors": [
+        "#000000",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Perplexity",
+      "url": "https://www.perplexity.ai",
+      "category": "AI",
+      "colors": [
+        "#27251e",
+        "#016a71",
+        "#fcfcf9"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Mistral AI",
+      "url": "https://mistral.ai",
+      "category": "AI",
+      "colors": [
+        "#18181b",
+        "#ff5229",
+        "#fbfbf8"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Hugging Face",
+      "url": "https://huggingface.co",
+      "category": "AI",
+      "colors": [
+        "#000000",
+        "#101828",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "ElevenLabs",
+      "url": "https://elevenlabs.io",
+      "category": "AI",
+      "colors": [
+        "#000000",
+        "#777169",
+        "#fdfcfc"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Runway",
+      "url": "https://runwayml.com",
+      "category": "AI",
+      "colors": [
+        "#0c0c0c",
+        "#1032cf",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Midjourney",
+      "url": "https://www.midjourney.com",
+      "category": "AI",
+      "colors": [
+        "#06051d",
+        "#63b3ed",
+        "#cad5e2"
+      ],
+      "mode": "dark"
+    },
+    {
+      "name": "Jasper",
+      "url": "https://www.jasper.ai",
+      "category": "AI",
+      "colors": [
+        "#00063d",
+        "#fa4028",
+        "#e6ffd9",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Synthesia",
+      "url": "https://www.synthesia.io",
+      "category": "AI",
+      "colors": [
+        "#090b22",
+        "#363636",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Descript",
+      "url": "https://www.descript.com",
+      "category": "AI",
+      "colors": [
+        "#390a1a",
+        "#f73b3b",
+        "#772a4d",
+        "#fff7fa"
+      ],
+      "mode": "dark"
+    },
+    {
+      "name": "Glean",
+      "url": "https://www.glean.com",
+      "category": "AI",
+      "colors": [
+        "#000000",
+        "#343ced",
+        "#d8fd49",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Harvey",
+      "url": "https://www.harvey.ai",
+      "category": "AI",
+      "colors": [
+        "#0f0e0d",
+        "#706d66",
+        "#fafaf9"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Lovable",
+      "url": "https://lovable.dev",
+      "category": "AI",
+      "colors": [
+        "#030303",
+        "#666054",
+        "#fcfbf8"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Intercom",
+      "url": "https://www.intercom.com",
+      "category": "B2B SaaS",
+      "colors": [
+        "#000000",
+        "#000ce1",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "HubSpot",
+      "url": "https://www.hubspot.com",
+      "category": "B2B SaaS",
+      "colors": [
+        "#1f1f1f",
+        "#ff4800",
+        "#fcfcfa"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Attio",
+      "url": "https://attio.com",
+      "category": "B2B SaaS",
+      "colors": [
+        "#1c1d1f",
+        "#6f7988",
+        "#fafafb"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Zapier",
+      "url": "https://zapier.com",
+      "category": "B2B SaaS",
+      "colors": [
+        "#201515",
+        "#503ebd",
+        "#ff4f00",
+        "#f8f4f0"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Mailchimp",
+      "url": "https://mailchimp.com",
+      "category": "B2B SaaS",
+      "colors": [
+        "#000000",
+        "#ffe01b",
+        "#004e56",
+        "#f5f5f5"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Klaviyo",
+      "url": "https://www.klaviyo.com",
+      "category": "B2B SaaS",
+      "colors": [
+        "#1d1e20",
+        "#ff4b33",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Shopify",
+      "url": "https://www.shopify.com",
+      "category": "B2B SaaS",
+      "colors": [
+        "#02090a",
+        "#ffffff"
+      ],
+      "mode": "dark"
+    },
+    {
+      "name": "Squarespace",
+      "url": "https://www.squarespace.com",
+      "category": "B2B SaaS",
+      "colors": [
+        "#000000",
+        "#ffffff"
+      ],
+      "mode": "dark"
+    },
+    {
+      "name": "Gong",
+      "url": "https://www.gong.io",
+      "category": "B2B SaaS",
+      "colors": [
+        "#1d0254",
+        "#8039df",
+        "#fd63fe",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Segment",
+      "url": "https://segment.com",
+      "category": "B2B SaaS",
+      "colors": [
+        "#000d25",
+        "#1866ee",
+        "#ffffff"
+      ],
+      "mode": "dark"
+    },
+    {
+      "name": "Amplitude",
+      "url": "https://amplitude.com",
+      "category": "B2B SaaS",
+      "colors": [
+        "#000000",
+        "#1e61f0",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Mixpanel",
+      "url": "https://mixpanel.com",
+      "category": "B2B SaaS",
+      "colors": [
+        "#000000",
+        "#1f2023",
+        "#fafafa"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Hotjar",
+      "url": "https://www.hotjar.com",
+      "category": "B2B SaaS",
+      "colors": [
+        "#0d0d0d",
+        "#3860be",
+        "#7c0033",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Front",
+      "url": "https://front.com",
+      "category": "B2B SaaS",
+      "colors": [
+        "#300c41",
+        "#dee948",
+        "#d0c6f0",
+        "#f3f3f4"
+      ],
+      "mode": "dark"
+    },
+    {
+      "name": "Vanta",
+      "url": "https://www.vanta.com",
+      "category": "B2B SaaS",
+      "colors": [
+        "#260048",
+        "#5e05c4",
+        "#c2beff",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Retool",
+      "url": "https://retool.com",
+      "category": "B2B SaaS",
+      "colors": [
+        "#151515",
+        "#518dd2",
+        "#e9ebdf"
+      ],
+      "mode": "dark"
+    },
+    {
+      "name": "Airbnb",
+      "url": "https://www.airbnb.com",
+      "category": "Consumer",
+      "colors": [
+        "#282828",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Duolingo",
+      "url": "https://www.duolingo.com",
+      "category": "Consumer",
+      "colors": [
+        "#4b4b4b",
+        "#6cc04a",
+        "#1cb0f6",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Spotify",
+      "url": "https://www.spotify.com",
+      "category": "Consumer",
+      "colors": [
+        "#121212",
+        "#b3b3b3",
+        "#ffffff"
+      ],
+      "mode": "dark"
+    },
+    {
+      "name": "Headspace",
+      "url": "https://www.headspace.com",
+      "category": "Consumer",
+      "colors": [
+        "#2d2c2b",
+        "#0061ef",
+        "#ffce00",
+        "#ffa1cc",
+        "#f9f4f2"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Calm",
+      "url": "https://www.calm.com",
+      "category": "Consumer",
+      "colors": [
+        "#383838",
+        "#1a3e6f",
+        "#555be4",
+        "#f7f7f7"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Strava",
+      "url": "https://www.strava.com",
+      "category": "Consumer",
+      "colors": [
+        "#000000",
+        "#fc5200",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Peloton",
+      "url": "https://www.onepeloton.com",
+      "category": "Consumer",
+      "colors": [
+        "#000000",
+        "#181a1d",
+        "#f5f7f9"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Whoop",
+      "url": "https://www.whoop.com",
+      "category": "Consumer",
+      "colors": [
+        "#000000",
+        "#4a53ff",
+        "#ffffff"
+      ],
+      "mode": "dark"
+    },
+    {
+      "name": "Oura",
+      "url": "https://ouraring.com",
+      "category": "Consumer",
+      "colors": [
+        "#4a4741",
+        "#2a72de",
+        "#f7f1e8"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Bumble",
+      "url": "https://bumble.com",
+      "category": "Consumer",
+      "colors": [
+        "#202020",
+        "#ffffff",
+        "#ffdb5b"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Hinge",
+      "url": "https://hinge.co",
+      "category": "Consumer",
+      "colors": [
+        "#1a1a1a",
+        "#484848",
+        "#fffefd"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Discord",
+      "url": "https://discord.com",
+      "category": "Consumer",
+      "colors": [
+        "#1a2081",
+        "#5865f2",
+        "#ffffff"
+      ],
+      "mode": "dark"
+    },
+    {
+      "name": "Substack",
+      "url": "https://substack.com",
+      "category": "Consumer",
+      "colors": [
+        "#363737",
+        "#ff6719",
+        "#2f6d5d",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Patreon",
+      "url": "https://www.patreon.com",
+      "category": "Consumer",
+      "colors": [
+        "#95adcb",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "DoorDash",
+      "url": "https://www.doordash.com",
+      "category": "Consumer",
+      "colors": [
+        "#191919",
+        "#eb1700",
+        "#fef1ee"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Glossier",
+      "url": "https://www.glossier.com",
+      "category": "Commerce",
+      "colors": [
+        "#000000",
+        "#333333",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Allbirds",
+      "url": "https://www.allbirds.com",
+      "category": "Commerce",
+      "colors": [
+        "#000000",
+        "#212121",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Warby Parker",
+      "url": "https://www.warbyparker.com",
+      "category": "Commerce",
+      "colors": [
+        "#121212",
+        "#1050d0",
+        "#072369",
+        "#faf8f5"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Away",
+      "url": "https://www.awaytravel.com",
+      "category": "Commerce",
+      "colors": [
+        "#111111",
+        "#96659a",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Casper",
+      "url": "https://casper.com",
+      "category": "Commerce",
+      "colors": [
+        "#151515",
+        "#012169",
+        "#3159a7",
+        "#cb372a",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Everlane",
+      "url": "https://www.everlane.com",
+      "category": "Commerce",
+      "colors": [
+        "#000000",
+        "#262626",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Liquid Death",
+      "url": "https://liquiddeath.com",
+      "category": "Commerce",
+      "colors": [
+        "#000000",
+        "#f5f5f5"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Oatly",
+      "url": "https://www.oatly.com",
+      "category": "Commerce",
+      "colors": [
+        "#000000",
+        "#222222",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Olipop",
+      "url": "https://drinkolipop.com",
+      "category": "Commerce",
+      "colors": [
+        "#0a3128",
+        "#034638",
+        "#e31a82",
+        "#ff9ec8",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Graza",
+      "url": "https://www.graza.co",
+      "category": "Commerce",
+      "colors": [
+        "#3c422e",
+        "#d1e030",
+        "#f6e6d9"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Our Place",
+      "url": "https://fromourplace.com",
+      "category": "Commerce",
+      "colors": [
+        "#35312e",
+        "#af5a3c",
+        "#fcfaf6"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Rhode",
+      "url": "https://www.rhodeskin.com",
+      "category": "Commerce",
+      "colors": [
+        "#67645e",
+        "#acaaa5",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Hims & Hers",
+      "url": "https://www.hims.com",
+      "category": "Health",
+      "colors": [
+        "#000000",
+        "#ffc671",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Oscar Health",
+      "url": "https://www.hioscar.com",
+      "category": "Health",
+      "colors": [
+        "#1f0d05",
+        "#4f50ff",
+        "#f7f5eb"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Ro",
+      "url": "https://ro.co",
+      "category": "Health",
+      "colors": [
+        "#1a1a1a",
+        "#f8ffa1",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Function Health",
+      "url": "https://www.functionhealth.com",
+      "category": "Health",
+      "colors": [
+        "#2a2b2f",
+        "#b05a36",
+        "#fef9ef"
+      ],
+      "mode": "light"
+    }
+  ]
+}

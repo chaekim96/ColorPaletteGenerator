@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Shuffle, Download, Share, Sparkles, Columns3, LayoutTemplate, Dices, ChevronDown, X, CircleHelp } from 'lucide-react';
+import { Shuffle, Download, Share, Sparkles, Columns3, LayoutTemplate, Dices, ChevronDown, X, CircleHelp, House, TrendingUp } from 'lucide-react';
+import { linkProps } from '../router';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -34,7 +35,20 @@ export function PaletteControls({ view, onViewChange, contrastIssues, onGenerate
     <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-10 w-[min(960px,calc(100vw-2rem))]">
       <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg border p-4 flex flex-col gap-3">
         {/* 1. Start from a description */}
-        <DescribeInput onSubmit={onDescribe} />
+        <div className="flex items-center gap-2">
+          <Button variant="ghost" size="icon" asChild title="Home">
+            <a {...linkProps('/')} aria-label="Home">
+              <House className="h-4 w-4" />
+            </a>
+          </Button>
+          <div className="flex-1"><DescribeInput onSubmit={onDescribe} /></div>
+          <Button variant="ghost" asChild className="gap-1.5" title="See what startups are using">
+            <a {...linkProps('/explore')}>
+              <TrendingUp className="h-4 w-4" />
+              Explore
+            </a>
+          </Button>
+        </div>
 
         {/* 2. Or pick a mood */}
         <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Vibe">
