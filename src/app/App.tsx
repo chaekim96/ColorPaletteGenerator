@@ -1,107 +1,170 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { ColorSwatch } from './components/ColorSwatch';
 import { PaletteControls } from './components/PaletteControls';
 import { HelpOverlay } from './components/HelpOverlay';
-import { Color, generateColor, generateHarmoniousPalette, hexToRgb, rgbToHsl } from './utils/colorUtils';
+import { Color, colorFromHex } from './utils/colorUtils';
+import { generatePalette, getVibe, inferVibe, lockedPrimary, mergeLocked, primaryColor, VibeId } from './utils/palette';
+import { getFontPair, loadFontPair, pickPair } from './utils/fonts';
+import { FontBar } from './components/FontBar';
+import { LandingPreview } from './components/LandingPreview';
+import { View } from './components/PaletteControls';
+import { assignRoles, Mode, Roles, swatchRole } from './utils/roles';
+import { checkRoles, PairCheck } from './utils/contrast';
+import { ExportDialog } from './components/ExportDialog';
+import { describeToSettings } from './utils/describe';
 import { copyToClipboard } from './utils/clipboard';
+import { decodeShareState, encodeShareState } from './utils/shareUrl';
+import { paletteName } from './utils/names';
 import { downloadPaletteImage } from './utils/imageExport';
-import { Toaster } from './components/ui/sonner';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
-export default function App() {
-  const [colors, setColors] = useState<Color[]>([]);
-  const [isGradientMode, setIsGradientMode] = useState(false);
-  const [selectedBaseColor, setSelectedBaseColor] = useState('');
-  const [colorCount, setColorCount] = useState(5);
+interface PaletteSettings {
+  vibe: VibeId | null;
+  baseHex: string;
+  count: number;
+}
 
-  // Initialize palette
-  const generateNewPalette = useCallback(() => {
+export function App() {
+  // Read once when the generator opens: a shared link restores palette, fonts, vibe, base and view
+  const [initial] = useState(() => decodeShareState(window.location.search));
+  const [colors, setColors] = useState<Color[]>(() =>
+    initial.colors
+      ? initial.colors.map(hex => colorFromHex(hex))
+      : generatePalette({ vibe: initial.vibe, baseHex: initial.base, count: initial.count ?? 5 })
+  );
+  const [isGradientMode, setIsGradientMode] = useState(initial.gradient ?? false);
+  const [selectedBaseColor, setSelectedBaseColor] = useState(initial.base ?? '');
+  const [colorCount, setColorCount] = useState(initial.colors?.length ?? initial.count ?? 5);
+  const [vibe, setVibe] = useState<VibeId | null>(initial.vibe ?? null);
+  const [fontPairId, setFontPairId] = useState(initial.fonts ?? '');
+  const [view, setView] = useState<View>(initial.view ?? 'palette');
+  const [previewMode, setPreviewMode] = useState<Mode>(initial.mode ?? 'light');
+  const [exportOpen, setExportOpen] = useState(false);
+  const [helpOpen, setHelpOpen] = useState(false);
+  // First-run hint; hidden once dismissed or after the first Space press
+  const [showHint, setShowHint] = useState(() => {
+    try { return localStorage.getItem('cpg:hint-dismissed') !== '1'; } catch { return true; }
+  });
+  const dismissHint = () => {
+    setShowHint(false);
+    try { localStorage.setItem('cpg:hint-dismissed', '1'); } catch { /* storage blocked: hide for this visit */ }
+  };
+  const keepSharedFonts = useRef(Boolean(initial.fonts));
+
+  // The vibe the palette actually reads as: the chosen one, or inferred from its primary color
+  const primary = primaryColor(colors);
+  const paletteVibe: VibeId | undefined = vibe ?? (primary ? inferVibe(primary.hex) : undefined);
+  const fontPair = getFontPair(fontPairId);
+  const name = primary ? paletteName(colors.map(c => c.hex), primary.hex, vibe ?? undefined) : '';
+
+  useEffect(() => {
+    document.title = name ? `${name} · Color Palette Generator` : 'Color Palette Generator';
+  }, [name]);
+
+  // Switch fonts only when the current pairing no longer fits the palette's vibe
+  useEffect(() => {
+    if (!paletteVibe) return;
+    // Fonts from a shared link are shown as shared, even if they'd be picked differently here
+    if (keepSharedFonts.current) {
+      keepSharedFonts.current = false;
+      return;
+    }
+    if (!getFontPair(fontPairId)?.vibes.includes(paletteVibe)) {
+      setFontPairId(pickPair(paletteVibe).id);
+    }
+  }, [paletteVibe]);
+
+  useEffect(() => {
+    if (fontPair) loadFontPair(fontPair);
+  }, [fontPair]);
+
+  const roles: Roles | undefined = colors.length > 0 ? assignRoles(colors.map(c => c.hex), previewMode) : undefined;
+  const contrastChecks = roles ? checkRoles(roles) : [];
+
+  // Swap the adjusted color into the palette, keeping its lock; a fixed base color stays the base
+  const applyContrastFix = ({ from, to }: NonNullable<PairCheck['fix']>) => {
+    setColors(prev => prev.map(c => (c.hex === from ? colorFromHex(to, c.locked) : c)));
+    if (selectedBaseColor === from) setSelectedBaseColor(to);
+    toast.success(`Updated ${from} to ${to}`);
+  };
+
+  const shuffleFonts = () => {
+    if (paletteVibe) setFontPairId(pickPair(paletteVibe, fontPairId).id);
+  };
+
+  // Regenerate unlocked colors, optionally with new settings applied first
+  const regenerate = useCallback((overrides: Partial<PaletteSettings> = {}) => {
+    const settings: PaletteSettings = { vibe, baseHex: selectedBaseColor, count: colorCount, ...overrides };
     setColors(prevColors => {
-      const newColors = generateHarmoniousPalette(selectedBaseColor || undefined, colorCount);
-      
-      // Preserve locked colors (only if they exist in the new array)
-      return newColors.map((newColor, index) => {
-        if (prevColors[index]?.locked) {
-          return prevColors[index];
-        }
-        return newColor;
+      const newColors = generatePalette({
+        vibe: settings.vibe ?? undefined,
+        // A locked primary anchors the palette like a base color does
+        baseHex: settings.baseHex || lockedPrimary(prevColors),
+        count: settings.count,
       });
+      return mergeLocked(prevColors, newColors);
     });
-  }, [selectedBaseColor, colorCount]);
+  }, [vibe, selectedBaseColor, colorCount]);
 
-  // Effect to generate palette when colorCount changes (after URL initialization)
-  useEffect(() => {
-    // Only generate if we have colors already (meaning we've initialized)
-    if (colors.length > 0 && colors.length !== colorCount) {
-      const newColors = generateHarmoniousPalette(selectedBaseColor || undefined, colorCount);
-      setColors(prevColors => {
-        // Preserve locked colors (only if they exist in the new array)
-        return newColors.map((newColor, index) => {
-          if (prevColors[index]?.locked) {
-            return prevColors[index];
-          }
-          return newColor;
-        });
-      });
+  const generateNewPalette = useCallback(() => {
+    if (colors.length > 0 && colors.every(color => color.locked)) {
+      toast('All colors are locked', { description: 'Unlock one to generate new options.' });
+      return;
     }
-  }, [colorCount, selectedBaseColor]);
+    regenerate();
+  }, [regenerate, colors]);
 
-  // Initialize on mount and check URL params
+  const shareQuery = encodeShareState({
+    colors: colors.map(c => c.hex),
+    fonts: fontPairId || undefined,
+    vibe: vibe ?? undefined,
+    base: selectedBaseColor || undefined,
+    view,
+    mode: previewMode,
+    gradient: isGradientMode,
+  });
+
+  // Keep the address bar in sync so reloads and copied URLs keep the current state
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlColors = urlParams.get('colors');
-    const urlGradient = urlParams.get('gradient') === 'true';
-    const urlCount = parseInt(urlParams.get('count') || '5');
-    
-    // First, set the gradient mode from URL if present
-    if (urlParams.has('gradient')) {
-      setIsGradientMode(urlGradient);
-    }
-    
-    if (urlColors) {
-      try {
-        const hexColors = urlColors.split('-').map(hex => `#${hex}`);
-        const parsedColors: Color[] = hexColors.map(hex => {
-          const rgb = hexToRgb(hex);
-          const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
-          return { hex, rgb, hsl, locked: false };
-        });
-        
-        if (parsedColors.length >= 2 && parsedColors.length <= 10) {
-          setColors(parsedColors);
-          setColorCount(parsedColors.length);
-          return;
-        }
-      } catch (error) {
-        console.warn('Invalid URL color parameters');
-      }
-    }
-    
-    // Set color count from URL if valid
-    if (urlCount >= 2 && urlCount <= 10 && urlCount !== colorCount) {
-      setColorCount(urlCount);
-      // Generate palette with the new count
-      const newColors = generateHarmoniousPalette(selectedBaseColor || undefined, urlCount);
-      setColors(newColors);
-    } else {
-      // Generate initial palette with current colorCount
-      const newColors = generateHarmoniousPalette(selectedBaseColor || undefined, colorCount);
-      setColors(newColors);
-    }
-  }, []); // Remove generateNewPalette from dependencies to avoid circular dependency
+    window.history.replaceState(null, '', `/generate?${shareQuery}`);
+  }, [shareQuery]);
 
   // Keyboard event handlers
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
-      // Ignore if user is typing in an input
-      if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
+      const target = event.target as HTMLElement;
+      // Ignore typing in fields and browser/OS shortcuts like Cmd+S
+      if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target.isContentEditable) return;
+      if (event.metaKey || event.ctrlKey || event.altKey) return;
+      if (exportOpen) return; // the dialog handles its own keys
+
+      // Keyboard users activating a focused control get the native behavior
+      const onFocusedControl = target.matches('button, [role="slider"], a') && target.matches(':focus-visible');
+
+      if (/^Digit[1-9]$/.test(event.code)) {
+        const index = Number(event.code.slice(5)) - 1;
+        if (index < colors.length) {
+          event.preventDefault();
+          toggleColorLock(index);
+        }
         return;
       }
 
       switch (event.code) {
         case 'Space':
+          if (onFocusedControl) return;
           event.preventDefault();
+          if (event.repeat) return;
           generateNewPalette();
+          if (showHint) dismissHint();
+          break;
+        case 'KeyP':
+          event.preventDefault();
+          setView(prev => (prev === 'palette' ? 'preview' : 'palette'));
+          break;
+        case 'KeyF':
+          event.preventDefault();
+          shuffleFonts();
           break;
         case 'KeyG':
           event.preventDefault();
@@ -109,7 +172,7 @@ export default function App() {
           break;
         case 'KeyE':
           event.preventDefault();
-          exportPalette();
+          setExportOpen(true);
           break;
         case 'KeyS':
           event.preventDefault();
@@ -120,7 +183,7 @@ export default function App() {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [generateNewPalette, colors, isGradientMode]);
+  });
 
   const toggleColorLock = (index: number) => {
     setColors(prevColors => 
@@ -130,9 +193,9 @@ export default function App() {
     );
   };
 
-  const exportPalette = async () => {
+  const downloadPng = async () => {
     try {
-      await downloadPaletteImage(colors);
+      await downloadPaletteImage(colors, `${name.toLowerCase().replace(/\s+/g, '-') || 'color-palette'}.png`);
       toast.success('Palette image exported successfully!');
     } catch (error) {
       console.error('Export failed:', error);
@@ -141,58 +204,120 @@ export default function App() {
   };
 
   const sharePalette = async () => {
-    const colorHexes = colors.map(c => c.hex.slice(1)).join('-');
-    const url = `${window.location.origin}?colors=${colorHexes}&gradient=${isGradientMode}&count=${colorCount}`;
-    
-    await copyToClipboard(url);
+    const url = `${window.location.origin}/generate?${shareQuery}`;
+
+    const success = await copyToClipboard(url);
+    if (success) {
+      toast.success('Link copied', {
+        description: view === 'preview'
+          ? `Opens ${name} with its fonts and the preview page.`
+          : `Opens ${name} and its font pairing.`,
+      });
+    } else {
+      toast.error('Failed to copy link');
+    }
   };
 
-  const handleBaseColorSelect = (color: string) => {
-    setSelectedBaseColor(color);
-    // The useEffect will handle palette regeneration
+  const handleBaseColorSelect = (hex: string) => {
+    setSelectedBaseColor(hex);
+    regenerate({ baseHex: hex });
+  };
+
+  const handleVibeSelect = (newVibe: VibeId | null) => {
+    setVibe(newVibe);
+    regenerate({ vibe: newVibe });
+  };
+
+  // A description is a fresh start: it replaces both the vibe and the base color
+  const handleDescribe = (text: string) => {
+    const result = describeToSettings(text);
+    if (result.matches.length === 0) {
+      toast("Couldn't find a match", {
+        description: 'Try an industry, a mood or a color, e.g. "fintech", "playful", "navy".',
+      });
+      return;
+    }
+    const newVibe = result.vibe ?? null;
+    const newBase = result.baseHex ?? '';
+    setVibe(newVibe);
+    setSelectedBaseColor(newBase);
+    regenerate({ vibe: newVibe, baseHex: newBase });
+    toast.success(
+      [newVibe && `${getVibe(newVibe).label} vibe`, newBase && `base ${newBase}`].filter(Boolean).join(' · '),
+      { description: `Matched ${result.matches.join('; ')}` },
+    );
   };
 
   const handleColorCountChange = (newCount: number) => {
     setColorCount(newCount);
-    // The useEffect will handle palette regeneration
+    regenerate({ count: newCount });
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <PaletteControls 
+    <div className="h-screen flex flex-col bg-gray-50">
+      <PaletteControls
+        view={view}
+        onViewChange={setView}
+        contrastIssues={contrastChecks.filter(c => !c.passes).length}
         onGenerate={generateNewPalette}
-        onToggleGradient={() => setIsGradientMode(prev => !prev)}
-        isGradientMode={isGradientMode}
-        colors={colors}
+        onDescribe={handleDescribe}
+        vibe={vibe}
+        onVibeSelect={handleVibeSelect}
+        onExport={() => setExportOpen(true)}
+        onShare={sharePalette}
         onBaseColorSelect={handleBaseColorSelect}
         selectedBaseColor={selectedBaseColor}
         colorCount={colorCount}
         onColorCountChange={handleColorCountChange}
+        onHelp={() => setHelpOpen(true)}
+        showTip={showHint && view === 'palette'}
+        onDismissTip={dismissHint}
       />
       
-      <div className="flex h-screen">
-        {colors.map((color, index) => (
-          <ColorSwatch
-            key={`${color.hex}-${index}`}
-            color={color}
-            onToggleLock={toggleColorLock}
-            index={index}
-            isGradientMode={isGradientMode}
-          />
-        ))}
-      </div>
-
-      <HelpOverlay />
-      <Toaster />
-
-      {/* Instructions overlay for first-time users */}
-      {colors.length > 0 && (
-        <div className="fixed bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg border p-4 max-w-sm">
-          <p className="text-sm text-gray-600">
-            Press <kbd className="px-1 py-0.5 bg-gray-100 rounded text-xs">Space</kbd> to generate new colors
-          </p>
+      {view === 'preview' && fontPair && roles ? (
+        <LandingPreview
+          name={name}
+          roles={roles}
+          fontPair={fontPair}
+          mode={previewMode}
+          onModeChange={setPreviewMode}
+          checks={contrastChecks}
+          onApplyFix={applyContrastFix}
+        />
+      ) : (
+        <div className="flex flex-1 min-h-0">
+          {colors.map((color, index) => (
+            <ColorSwatch
+              key={index}
+              color={color}
+              onToggleLock={toggleColorLock}
+              index={index}
+              isGradientMode={isGradientMode}
+              role={roles ? swatchRole(color.hex, roles) : undefined}
+            />
+          ))}
         </div>
       )}
+
+      {fontPair && paletteVibe && <FontBar name={name} pair={fontPair} vibe={paletteVibe} onShuffle={shuffleFonts} />}
+
+      {fontPair && colors.length > 0 && (
+        <ExportDialog
+          open={exportOpen}
+          onOpenChange={setExportOpen}
+          onDownloadPng={downloadPng}
+          input={{
+            palette: colors.map(c => c.hex),
+            light: assignRoles(colors.map(c => c.hex), 'light'),
+            dark: assignRoles(colors.map(c => c.hex), 'dark'),
+            fonts: fontPair,
+            name,
+          }}
+        />
+      )}
+
+      <HelpOverlay open={helpOpen} onOpenChange={setHelpOpen} />
+
     </div>
   );
 }
