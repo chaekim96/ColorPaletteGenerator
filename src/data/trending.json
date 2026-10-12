@@ -1,5 +1,5 @@
 {
-  "scannedAt": "2026-10-06",
+  "scannedAt": "2026-10-12",
   "sites": [
     {
       "name": "Linear",
@@ -190,7 +190,7 @@
       "category": "Developer tools",
       "colors": [
         "#171321",
-        "#7759c2",
+        "#a2a1a6",
         "#ffffff"
       ],
       "mode": "light"
@@ -216,7 +216,6 @@
         "#061b31",
         "#533afd",
         "#81b81a",
-        "#2d2564",
         "#ffffff"
       ],
       "mode": "light"
@@ -250,7 +249,7 @@
       "colors": [
         "#171721",
         "#5266eb",
-        "#fcfcfa"
+        "#f6f5f2"
       ],
       "mode": "dark"
     },
@@ -295,24 +294,11 @@
       "colors": [
         "#00172e",
         "#05565c",
-        "#10d1b7",
         "#5c7695",
+        "#003e4a",
         "#ffffff"
       ],
       "mode": "light"
-    },
-    {
-      "name": "Chime",
-      "url": "https://www.chime.com",
-      "category": "Fintech",
-      "colors": [
-        "#052316",
-        "#1ec677",
-        "#027443",
-        "#0d4029",
-        "#ffffff"
-      ],
-      "mode": "dark"
     },
     {
       "name": "Robinhood",
@@ -342,8 +328,9 @@
       "category": "Fintech",
       "colors": [
         "#000000",
-        "#666666",
-        "#ffffff"
+        "#ffa81d",
+        "#4a0039",
+        "#f2eeeb"
       ],
       "mode": "light"
     },
@@ -353,6 +340,7 @@
       "category": "Fintech",
       "colors": [
         "#281350",
+        "#ffd967",
         "#f891ff",
         "#e7f9ff"
       ],
@@ -398,6 +386,7 @@
       "category": "Productivity",
       "colors": [
         "#000000",
+        "#cb9fd2",
         "#ffffff"
       ],
       "mode": "light"
@@ -420,7 +409,6 @@
       "colors": [
         "#101214",
         "#1868db",
-        "#ffab00",
         "#ffffff"
       ],
       "mode": "light"
@@ -500,9 +488,7 @@
       "colors": [
         "#292827",
         "#714cb6",
-        "#d4c7ff",
-        "#0c4243",
-        "#f7f5f2"
+        "#f2f0eb"
       ],
       "mode": "light"
     },
@@ -511,9 +497,9 @@
       "url": "https://slack.com",
       "category": "Productivity",
       "colors": [
-        "#000000",
+        "#181818",
         "#730394",
-        "#592466",
+        "#481a54",
         "#ffffff"
       ],
       "mode": "light"
@@ -548,7 +534,7 @@
       "category": "Productivity",
       "colors": [
         "#0f1015",
-        "#182c59",
+        "#8b3dff",
         "#ffffff"
       ],
       "mode": "light"
@@ -559,7 +545,7 @@
       "category": "Productivity",
       "colors": [
         "#000000",
-        "#0099ff",
+        "#171717",
         "#ffffff"
       ],
       "mode": "dark"
@@ -645,7 +631,7 @@
       "url": "https://www.perplexity.ai",
       "category": "AI",
       "colors": [
-        "#27251e",
+        "#0b2833",
         "#016a71",
         "#fcfcf9"
       ],
@@ -690,7 +676,7 @@
       "category": "AI",
       "colors": [
         "#0c0c0c",
-        "#1032cf",
+        "#2b22fa",
         "#ffffff"
       ],
       "mode": "light"
@@ -769,8 +755,7 @@
       "url": "https://lovable.dev",
       "category": "AI",
       "colors": [
-        "#030303",
-        "#666054",
+        "#1c1c1c",
         "#fcfbf8"
       ],
       "mode": "light"
@@ -814,7 +799,6 @@
       "category": "B2B SaaS",
       "colors": [
         "#201515",
-        "#503ebd",
         "#ff4f00",
         "#f8f4f0"
       ],
@@ -827,7 +811,6 @@
       "colors": [
         "#000000",
         "#ffe01b",
-        "#004e56",
         "#f5f5f5"
       ],
       "mode": "light"
@@ -892,7 +875,7 @@
       "category": "B2B SaaS",
       "colors": [
         "#000000",
-        "#1e61f0",
+        "#1a1f23",
         "#ffffff"
       ],
       "mode": "light"
@@ -902,8 +885,8 @@
       "url": "https://mixpanel.com",
       "category": "B2B SaaS",
       "colors": [
-        "#000000",
         "#1f2023",
+        "#96e6df",
         "#fafafa"
       ],
       "mode": "light"
@@ -914,8 +897,9 @@
       "category": "B2B SaaS",
       "colors": [
         "#0d0d0d",
-        "#3860be",
+        "#3640e8",
         "#7c0033",
+        "#1c1263",
         "#ffffff"
       ],
       "mode": "light"
@@ -925,12 +909,11 @@
       "url": "https://front.com",
       "category": "B2B SaaS",
       "colors": [
-        "#300c41",
+        "#001b38",
         "#dee948",
-        "#d0c6f0",
-        "#f3f3f4"
+        "#ffffff"
       ],
-      "mode": "dark"
+      "mode": "light"
     },
     {
       "name": "Vanta",
@@ -971,8 +954,8 @@
       "category": "Consumer",
       "colors": [
         "#4b4b4b",
-        "#6cc04a",
         "#1cb0f6",
+        "#58cc02",
         "#ffffff"
       ],
       "mode": "light"
@@ -1036,17 +1019,6 @@
       "mode": "light"
     },
     {
-      "name": "Whoop",
-      "url": "https://www.whoop.com",
-      "category": "Consumer",
-      "colors": [
-        "#000000",
-        "#4a53ff",
-        "#ffffff"
-      ],
-      "mode": "dark"
-    },
-    {
       "name": "Oura",
       "url": "https://ouraring.com",
       "category": "Consumer",
@@ -1091,28 +1063,6 @@
       "mode": "dark"
     },
     {
-      "name": "Substack",
-      "url": "https://substack.com",
-      "category": "Consumer",
-      "colors": [
-        "#363737",
-        "#ff6719",
-        "#2f6d5d",
-        "#ffffff"
-      ],
-      "mode": "light"
-    },
-    {
-      "name": "Patreon",
-      "url": "https://www.patreon.com",
-      "category": "Consumer",
-      "colors": [
-        "#95adcb",
-        "#ffffff"
-      ],
-      "mode": "light"
-    },
-    {
       "name": "DoorDash",
       "url": "https://www.doordash.com",
       "category": "Consumer",
@@ -1129,7 +1079,7 @@
       "category": "Commerce",
       "colors": [
         "#000000",
-        "#333333",
+        "#666666",
         "#ffffff"
       ],
       "mode": "light"
@@ -1163,6 +1113,7 @@
       "category": "Commerce",
       "colors": [
         "#111111",
+        "#323506",
         "#96659a",
         "#ffffff"
       ],
@@ -1175,7 +1126,7 @@
       "colors": [
         "#151515",
         "#012169",
-        "#3159a7",
+        "#3c619e",
         "#cb372a",
         "#ffffff"
       ],
@@ -1187,7 +1138,7 @@
       "category": "Commerce",
       "colors": [
         "#000000",
-        "#262626",
+        "#27456e",
         "#ffffff"
       ],
       "mode": "light"
@@ -1198,6 +1149,7 @@
       "category": "Commerce",
       "colors": [
         "#000000",
+        "#151515",
         "#f5f5f5"
       ],
       "mode": "light"
@@ -1221,7 +1173,7 @@
         "#0a3128",
         "#034638",
         "#e31a82",
-        "#ff9ec8",
+        "#5a0c3c",
         "#ffffff"
       ],
       "mode": "light"
@@ -1264,8 +1216,8 @@
       "url": "https://www.hims.com",
       "category": "Health",
       "colors": [
-        "#000000",
-        "#ffc671",
+        "#453421",
+        "#fcbb5b",
         "#ffffff"
       ],
       "mode": "light"
@@ -1303,5 +1255,18 @@
       ],
       "mode": "light"
     }
-  ]
+  ],
+  "previous": {
+    "scannedAt": "2026-10-06",
+    "moods": {
+      "minimal": 0.30434782608695665,
+      "playful": 0.20000000000000007,
+      "trustworthy": 0.0956521739130435,
+      "bold": 0.2782608695652175,
+      "earthy": 0.043478260869565216,
+      "premium": 0.043478260869565216,
+      "calm": 0.008695652173913044,
+      "romantic": 0.026086956521739132
+    }
+  }
 }
