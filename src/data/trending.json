@@ -1,5 +1,5 @@
 {
-  "scannedAt": "2026-10-12",
+  "scannedAt": "2026-10-19",
   "sites": [
     {
       "name": "Linear",
@@ -249,7 +249,7 @@
       "colors": [
         "#171721",
         "#5266eb",
-        "#f6f5f2"
+        "#ededf3"
       ],
       "mode": "dark"
     },
@@ -262,17 +262,6 @@
         "#9fe870",
         "#163300",
         "#ffffff"
-      ],
-      "mode": "light"
-    },
-    {
-      "name": "Revolut",
-      "url": "https://www.revolut.com",
-      "category": "Fintech",
-      "colors": [
-        "#1f1f1f",
-        "#000000",
-        "#f7f7f7"
       ],
       "mode": "light"
     },
@@ -294,8 +283,8 @@
       "colors": [
         "#00172e",
         "#05565c",
+        "#10d1b7",
         "#5c7695",
-        "#003e4a",
         "#ffffff"
       ],
       "mode": "light"
@@ -312,13 +301,13 @@
       "mode": "dark"
     },
     {
-      "name": "Gusto",
-      "url": "https://gusto.com",
+      "name": "Deel",
+      "url": "https://www.deel.com",
       "category": "Fintech",
       "colors": [
-        "#1c1b1a",
-        "#1e7676",
-        "#ffffff"
+        "#1b1b1b",
+        "#5938b7",
+        "#fffbf4"
       ],
       "mode": "light"
     },
@@ -330,6 +319,7 @@
         "#000000",
         "#ffa81d",
         "#4a0039",
+        "#eab8f2",
         "#f2eeeb"
       ],
       "mode": "light"
@@ -386,7 +376,7 @@
       "category": "Productivity",
       "colors": [
         "#000000",
-        "#cb9fd2",
+        "#afbccf",
         "#ffffff"
       ],
       "mode": "light"
@@ -397,7 +387,7 @@
       "category": "Productivity",
       "colors": [
         "#000000",
-        "#3859ff",
+        "#1c1c1e",
         "#f0f0f0"
       ],
       "mode": "light"
@@ -617,27 +607,6 @@
       "mode": "light"
     },
     {
-      "name": "OpenAI",
-      "url": "https://openai.com",
-      "category": "AI",
-      "colors": [
-        "#000000",
-        "#ffffff"
-      ],
-      "mode": "light"
-    },
-    {
-      "name": "Perplexity",
-      "url": "https://www.perplexity.ai",
-      "category": "AI",
-      "colors": [
-        "#0b2833",
-        "#016a71",
-        "#fcfcf9"
-      ],
-      "mode": "light"
-    },
-    {
       "name": "Mistral AI",
       "url": "https://mistral.ai",
       "category": "AI",
@@ -680,17 +649,6 @@
         "#ffffff"
       ],
       "mode": "light"
-    },
-    {
-      "name": "Midjourney",
-      "url": "https://www.midjourney.com",
-      "category": "AI",
-      "colors": [
-        "#06051d",
-        "#63b3ed",
-        "#cad5e2"
-      ],
-      "mode": "dark"
     },
     {
       "name": "Jasper",
@@ -747,16 +705,6 @@
         "#0f0e0d",
         "#706d66",
         "#fafaf9"
-      ],
-      "mode": "light"
-    },
-    {
-      "name": "Lovable",
-      "url": "https://lovable.dev",
-      "category": "AI",
-      "colors": [
-        "#1c1c1c",
-        "#fcfbf8"
       ],
       "mode": "light"
     },
@@ -852,8 +800,8 @@
       "category": "B2B SaaS",
       "colors": [
         "#1d0254",
-        "#8039df",
         "#fd63fe",
+        "#8039df",
         "#ffffff"
       ],
       "mode": "light"
@@ -875,7 +823,7 @@
       "category": "B2B SaaS",
       "colors": [
         "#000000",
-        "#1a1f23",
+        "#0052f2",
         "#ffffff"
       ],
       "mode": "light"
@@ -1079,7 +1027,7 @@
       "category": "Commerce",
       "colors": [
         "#000000",
-        "#666666",
+        "#0600ff",
         "#ffffff"
       ],
       "mode": "light"
@@ -1113,8 +1061,8 @@
       "category": "Commerce",
       "colors": [
         "#111111",
-        "#323506",
         "#96659a",
+        "#424700",
         "#ffffff"
       ],
       "mode": "light"
@@ -1125,8 +1073,8 @@
       "category": "Commerce",
       "colors": [
         "#151515",
+        "#526699",
         "#012169",
-        "#3c619e",
         "#cb372a",
         "#ffffff"
       ],
@@ -1138,7 +1086,7 @@
       "category": "Commerce",
       "colors": [
         "#000000",
-        "#27456e",
+        "#121212",
         "#ffffff"
       ],
       "mode": "light"
@@ -1149,7 +1097,6 @@
       "category": "Commerce",
       "colors": [
         "#000000",
-        "#151515",
         "#f5f5f5"
       ],
       "mode": "light"
@@ -1171,9 +1118,9 @@
       "category": "Commerce",
       "colors": [
         "#0a3128",
-        "#034638",
+        "#14433d",
         "#e31a82",
-        "#5a0c3c",
+        "#ff9ec8",
         "#ffffff"
       ],
       "mode": "light"
@@ -1207,17 +1154,6 @@
       "colors": [
         "#67645e",
         "#acaaa5",
-        "#ffffff"
-      ],
-      "mode": "light"
-    },
-    {
-      "name": "Hims & Hers",
-      "url": "https://www.hims.com",
-      "category": "Health",
-      "colors": [
-        "#453421",
-        "#fcbb5b",
         "#ffffff"
       ],
       "mode": "light"
@@ -1257,16 +1193,16 @@
     }
   ],
   "previous": {
-    "scannedAt": "2026-10-06",
+    "scannedAt": "2026-10-12",
     "moods": {
-      "minimal": 0.30434782608695665,
-      "playful": 0.20000000000000007,
-      "trustworthy": 0.0956521739130435,
-      "bold": 0.2782608695652175,
-      "earthy": 0.043478260869565216,
-      "premium": 0.043478260869565216,
-      "calm": 0.008695652173913044,
-      "romantic": 0.026086956521739132
+      "minimal": 0.2972972972972973,
+      "playful": 0.17117117117117114,
+      "trustworthy": 0.0900900900900901,
+      "bold": 0.27927927927927926,
+      "earthy": 0.05405405405405405,
+      "premium": 0.06306306306306306,
+      "calm": 0.018018018018018018,
+      "romantic": 0.02702702702702703
     }
   }
 }
