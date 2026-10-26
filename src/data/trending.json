@@ -1,5 +1,5 @@
 {
-  "scannedAt": "2026-10-19",
+  "scannedAt": "2026-10-26",
   "sites": [
     {
       "name": "Linear",
@@ -8,7 +8,7 @@
       "colors": [
         "#08090a",
         "#8a8f98",
-        "#f7f8f8"
+        "#d0d6e0"
       ],
       "mode": "dark"
     },
@@ -63,8 +63,8 @@
       "colors": [
         "#111111",
         "#cd8407",
-        "#b62ad9",
         "#eb9d2a",
+        "#b62ad9",
         "#eeefe9"
       ],
       "mode": "light"
@@ -190,7 +190,6 @@
       "category": "Developer tools",
       "colors": [
         "#171321",
-        "#a2a1a6",
         "#ffffff"
       ],
       "mode": "light"
@@ -200,11 +199,10 @@
       "url": "https://fly.io",
       "category": "Developer tools",
       "colors": [
-        "#000000",
+        "#281950",
         "#7c3aed",
         "#686082",
-        "#281950",
-        "#ffffff"
+        "#f1f2f9"
       ],
       "mode": "light"
     },
@@ -249,7 +247,7 @@
       "colors": [
         "#171721",
         "#5266eb",
-        "#ededf3"
+        "#f6f5f2"
       ],
       "mode": "dark"
     },
@@ -330,7 +328,6 @@
       "category": "Fintech",
       "colors": [
         "#281350",
-        "#ffd967",
         "#f891ff",
         "#e7f9ff"
       ],
@@ -342,7 +339,7 @@
       "category": "Fintech",
       "colors": [
         "#1a1a1a",
-        "#656b6b",
+        "#000000",
         "#ffffff"
       ],
       "mode": "light"
@@ -376,7 +373,6 @@
       "category": "Productivity",
       "colors": [
         "#000000",
-        "#afbccf",
         "#ffffff"
       ],
       "mode": "light"
@@ -387,8 +383,8 @@
       "category": "Productivity",
       "colors": [
         "#000000",
-        "#1c1c1e",
-        "#f0f0f0"
+        "#fde050",
+        "#fbfaf7"
       ],
       "mode": "light"
     },
@@ -399,6 +395,7 @@
       "colors": [
         "#101214",
         "#1868db",
+        "#ffab00",
         "#ffffff"
       ],
       "mode": "light"
@@ -408,8 +405,8 @@
       "url": "https://www.airtable.com",
       "category": "Productivity",
       "colors": [
-        "#161616",
-        "#03330b",
+        "#181d26",
+        "#912e1f",
         "#ffffff"
       ],
       "mode": "light"
@@ -513,7 +510,6 @@
       "colors": [
         "#0c021c",
         "#c4ee87",
-        "#5318eb",
         "#ffffff"
       ],
       "mode": "light"
@@ -602,7 +598,18 @@
       "category": "AI",
       "colors": [
         "#141413",
-        "#f0eee6"
+        "#5e5d59",
+        "#faf9f5"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "OpenAI",
+      "url": "https://openai.com",
+      "category": "AI",
+      "colors": [
+        "#000000",
+        "#ffffff"
       ],
       "mode": "light"
     },
@@ -645,7 +652,7 @@
       "category": "AI",
       "colors": [
         "#0c0c0c",
-        "#2b22fa",
+        "#1032cf",
         "#ffffff"
       ],
       "mode": "light"
@@ -823,7 +830,7 @@
       "category": "B2B SaaS",
       "colors": [
         "#000000",
-        "#0052f2",
+        "#50565b",
         "#ffffff"
       ],
       "mode": "light"
@@ -833,8 +840,8 @@
       "url": "https://mixpanel.com",
       "category": "B2B SaaS",
       "colors": [
+        "#000000",
         "#1f2023",
-        "#96e6df",
         "#fafafa"
       ],
       "mode": "light"
@@ -868,10 +875,10 @@
       "url": "https://www.vanta.com",
       "category": "B2B SaaS",
       "colors": [
-        "#260048",
+        "#240642",
         "#5e05c4",
-        "#c2beff",
-        "#ffffff"
+        "#9a99ff",
+        "#fcfcfa"
       ],
       "mode": "light"
     },
@@ -1027,7 +1034,7 @@
       "category": "Commerce",
       "colors": [
         "#000000",
-        "#0600ff",
+        "#333333",
         "#ffffff"
       ],
       "mode": "light"
@@ -1062,7 +1069,6 @@
       "colors": [
         "#111111",
         "#96659a",
-        "#424700",
         "#ffffff"
       ],
       "mode": "light"
@@ -1118,9 +1124,9 @@
       "category": "Commerce",
       "colors": [
         "#0a3128",
-        "#14433d",
+        "#034638",
         "#e31a82",
-        "#ff9ec8",
+        "#5a0c3c",
         "#ffffff"
       ],
       "mode": "light"
@@ -1154,6 +1160,18 @@
       "colors": [
         "#67645e",
         "#acaaa5",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Hims & Hers",
+      "url": "https://www.hims.com",
+      "category": "Health",
+      "colors": [
+        "#000000",
+        "#ffc671",
+        "#8a4242",
         "#ffffff"
       ],
       "mode": "light"
@@ -1193,16 +1211,16 @@
     }
   ],
   "previous": {
-    "scannedAt": "2026-10-12",
+    "scannedAt": "2026-10-19",
     "moods": {
-      "minimal": 0.2972972972972973,
-      "playful": 0.17117117117117114,
-      "trustworthy": 0.0900900900900901,
-      "bold": 0.27927927927927926,
-      "earthy": 0.05405405405405405,
-      "premium": 0.06306306306306306,
-      "calm": 0.018018018018018018,
-      "romantic": 0.02702702702702703
+      "minimal": 0.2857142857142857,
+      "playful": 0.19999999999999993,
+      "trustworthy": 0.06666666666666668,
+      "bold": 0.3047619047619048,
+      "earthy": 0.04761904761904762,
+      "premium": 0.04761904761904762,
+      "romantic": 0.028571428571428574,
+      "calm": 0.01904761904761905
     }
   }
 }
