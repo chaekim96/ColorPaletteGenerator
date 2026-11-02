@@ -1,5 +1,5 @@
 {
-  "scannedAt": "2026-10-26",
+  "scannedAt": "2026-11-02",
   "sites": [
     {
       "name": "Linear",
@@ -168,6 +168,7 @@
       "colors": [
         "#0d0d0d",
         "#8a05ff",
+        "#581ccb",
         "#ffffff"
       ],
       "mode": "light"
@@ -179,7 +180,7 @@
       "colors": [
         "#0e0704",
         "#e0531f",
-        "#ff6c37",
+        "#ff8e64",
         "#fff0de"
       ],
       "mode": "dark"
@@ -247,7 +248,7 @@
       "colors": [
         "#171721",
         "#5266eb",
-        "#f6f5f2"
+        "#ededf3"
       ],
       "mode": "dark"
     },
@@ -299,6 +300,18 @@
       "mode": "dark"
     },
     {
+      "name": "Gusto",
+      "url": "https://gusto.com",
+      "category": "Fintech",
+      "colors": [
+        "#1c1b1a",
+        "#1e7676",
+        "#03393d",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
       "name": "Deel",
       "url": "https://www.deel.com",
       "category": "Fintech",
@@ -328,6 +341,7 @@
       "category": "Fintech",
       "colors": [
         "#281350",
+        "#ffd967",
         "#f891ff",
         "#e7f9ff"
       ],
@@ -395,7 +409,6 @@
       "colors": [
         "#101214",
         "#1868db",
-        "#ffab00",
         "#ffffff"
       ],
       "mode": "light"
@@ -475,7 +488,9 @@
       "colors": [
         "#292827",
         "#714cb6",
-        "#f2f0eb"
+        "#d4c7ff",
+        "#0c4243",
+        "#f7f5f2"
       ],
       "mode": "light"
     },
@@ -484,7 +499,7 @@
       "url": "https://slack.com",
       "category": "Productivity",
       "colors": [
-        "#181818",
+        "#000000",
         "#730394",
         "#481a54",
         "#ffffff"
@@ -531,7 +546,7 @@
       "category": "Productivity",
       "colors": [
         "#000000",
-        "#171717",
+        "#111111",
         "#ffffff"
       ],
       "mode": "dark"
@@ -604,16 +619,6 @@
       "mode": "light"
     },
     {
-      "name": "OpenAI",
-      "url": "https://openai.com",
-      "category": "AI",
-      "colors": [
-        "#000000",
-        "#ffffff"
-      ],
-      "mode": "light"
-    },
-    {
       "name": "Mistral AI",
       "url": "https://mistral.ai",
       "category": "AI",
@@ -652,7 +657,7 @@
       "category": "AI",
       "colors": [
         "#0c0c0c",
-        "#1032cf",
+        "#2b22fa",
         "#ffffff"
       ],
       "mode": "light"
@@ -663,8 +668,7 @@
       "category": "AI",
       "colors": [
         "#00063d",
-        "#fa4028",
-        "#e6ffd9",
+        "#c5e7ff",
         "#ffffff"
       ],
       "mode": "light"
@@ -676,7 +680,7 @@
       "colors": [
         "#090b22",
         "#363636",
-        "#ffffff"
+        "#f7f7f7"
       ],
       "mode": "light"
     },
@@ -840,8 +844,8 @@
       "url": "https://mixpanel.com",
       "category": "B2B SaaS",
       "colors": [
-        "#000000",
         "#1f2023",
+        "#96e6df",
         "#fafafa"
       ],
       "mode": "light"
@@ -1068,7 +1072,7 @@
       "category": "Commerce",
       "colors": [
         "#111111",
-        "#96659a",
+        "#000000",
         "#ffffff"
       ],
       "mode": "light"
@@ -1079,8 +1083,8 @@
       "category": "Commerce",
       "colors": [
         "#151515",
-        "#526699",
         "#012169",
+        "#3c619e",
         "#cb372a",
         "#ffffff"
       ],
@@ -1103,6 +1107,7 @@
       "category": "Commerce",
       "colors": [
         "#000000",
+        "#151515",
         "#f5f5f5"
       ],
       "mode": "light"
@@ -1123,10 +1128,9 @@
       "url": "https://drinkolipop.com",
       "category": "Commerce",
       "colors": [
-        "#0a3128",
-        "#034638",
-        "#e31a82",
-        "#5a0c3c",
+        "#0d3b2e",
+        "#f92342",
+        "#8bd2d3",
         "#ffffff"
       ],
       "mode": "light"
@@ -1208,19 +1212,29 @@
         "#fef9ef"
       ],
       "mode": "light"
+    },
+    {
+      "name": "Noom",
+      "url": "https://www.noom.com",
+      "category": "Health",
+      "colors": [
+        "#191717",
+        "#1d3a44",
+        "#f6f4ee"
+      ],
+      "mode": "light"
     }
   ],
   "previous": {
-    "scannedAt": "2026-10-19",
+    "scannedAt": "2026-10-26",
     "moods": {
-      "minimal": 0.2857142857142857,
-      "playful": 0.19999999999999993,
-      "trustworthy": 0.06666666666666668,
-      "bold": 0.3047619047619048,
-      "earthy": 0.04761904761904762,
-      "premium": 0.04761904761904762,
-      "romantic": 0.028571428571428574,
-      "calm": 0.01904761904761905
+      "minimal": 0.3177570093457944,
+      "playful": 0.21495327102803738,
+      "trustworthy": 0.06542056074766354,
+      "bold": 0.2803738317757009,
+      "earthy": 0.056074766355140186,
+      "premium": 0.037383177570093455,
+      "romantic": 0.02803738317757009
     }
   }
 }
