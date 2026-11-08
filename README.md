@@ -1,4 +1,11 @@
-# Color Palette Generator
+<a href="https://color-palette-generator-three-sand.vercel.app">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="brand/readme/header-dark.png">
+  <img src="brand/readme/header-light.png" alt="Color Palette Generator: Brand colors and fonts for founders who aren't designers.">
+</picture>
+</a>
+
+**[Try it live →](https://color-palette-generator-three-sand.vercel.app)**
 
 A palette and font picker for founders and generalists with no design background. Get to a shippable brand look fast.
 
@@ -33,3 +40,7 @@ npm run scan       # refresh Explore data (Playwright)
 ## Notes
 
 Started as a Figma Make export, then rebuilt feature by feature. Project conventions live in [CLAUDE.md](CLAUDE.md).
+
+---
+
+<p align="center"><a href="https://chaekim.vercel.app"><img src="brand/readme/seal.svg" width="10" height="10" alt=""> <sub>a Chae Kim build</sub></a></p>
