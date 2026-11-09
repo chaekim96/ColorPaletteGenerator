@@ -1,5 +1,5 @@
 {
-  "scannedAt": "2026-11-02",
+  "scannedAt": "2026-11-09",
   "sites": [
     {
       "name": "Linear",
@@ -8,7 +8,7 @@
       "colors": [
         "#08090a",
         "#8a8f98",
-        "#d0d6e0"
+        "#f7f8f8"
       ],
       "mode": "dark"
     },
@@ -135,7 +135,7 @@
         "#1a1522",
         "#2a1eff",
         "#eef17c",
-        "#fbf9fe"
+        "#ffffff"
       ],
       "mode": "light"
     },
@@ -166,8 +166,7 @@
       "url": "https://render.com",
       "category": "Developer tools",
       "colors": [
-        "#0d0d0d",
-        "#8a05ff",
+        "#141414",
         "#581ccb",
         "#ffffff"
       ],
@@ -180,7 +179,7 @@
       "colors": [
         "#0e0704",
         "#e0531f",
-        "#ff8e64",
+        "#ff6c37",
         "#fff0de"
       ],
       "mode": "dark"
@@ -190,8 +189,8 @@
       "url": "https://about.gitlab.com",
       "category": "Developer tools",
       "colors": [
-        "#171321",
-        "#ffffff"
+        "#18171d",
+        "#fcfbfc"
       ],
       "mode": "light"
     },
@@ -201,8 +200,9 @@
       "category": "Developer tools",
       "colors": [
         "#281950",
-        "#7c3aed",
-        "#686082",
+        "#f86d60",
+        "#4a3f6b",
+        "#6d28d9",
         "#f1f2f9"
       ],
       "mode": "light"
@@ -248,7 +248,7 @@
       "colors": [
         "#171721",
         "#5266eb",
-        "#ededf3"
+        "#f6f5f2"
       ],
       "mode": "dark"
     },
@@ -269,8 +269,8 @@
       "url": "https://monzo.com",
       "category": "Fintech",
       "colors": [
-        "#000000",
         "#091723",
+        "#000000",
         "#f2f8f3"
       ],
       "mode": "light"
@@ -298,18 +298,6 @@
         "#ffffff"
       ],
       "mode": "dark"
-    },
-    {
-      "name": "Gusto",
-      "url": "https://gusto.com",
-      "category": "Fintech",
-      "colors": [
-        "#1c1b1a",
-        "#1e7676",
-        "#03393d",
-        "#ffffff"
-      ],
-      "mode": "light"
     },
     {
       "name": "Deel",
@@ -341,7 +329,6 @@
       "category": "Fintech",
       "colors": [
         "#281350",
-        "#ffd967",
         "#f891ff",
         "#e7f9ff"
       ],
@@ -353,7 +340,7 @@
       "category": "Fintech",
       "colors": [
         "#1a1a1a",
-        "#000000",
+        "#656b6b",
         "#ffffff"
       ],
       "mode": "light"
@@ -464,7 +451,6 @@
       "category": "Productivity",
       "colors": [
         "#071a31",
-        "#84c1ff",
         "#c3dffe",
         "#fcfbf8"
       ],
@@ -476,8 +462,8 @@
       "category": "Productivity",
       "colors": [
         "#242424",
-        "#898989",
-        "#f4f4f4"
+        "#5f6570",
+        "#ffffff"
       ],
       "mode": "light"
     },
@@ -488,8 +474,6 @@
       "colors": [
         "#292827",
         "#714cb6",
-        "#d4c7ff",
-        "#0c4243",
         "#f7f5f2"
       ],
       "mode": "light"
@@ -600,12 +584,13 @@
       "url": "https://www.dropbox.com",
       "category": "Productivity",
       "colors": [
-        "#1e1919",
+        "#0b2c9e",
         "#0061fe",
+        "#0077c0",
         "#0044af",
         "#f7f5f2"
       ],
-      "mode": "light"
+      "mode": "dark"
     },
     {
       "name": "Anthropic",
@@ -613,8 +598,17 @@
       "category": "AI",
       "colors": [
         "#141413",
-        "#5e5d59",
         "#faf9f5"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "OpenAI",
+      "url": "https://openai.com",
+      "category": "AI",
+      "colors": [
+        "#000000",
+        "#ffffff"
       ],
       "mode": "light"
     },
@@ -680,7 +674,7 @@
       "colors": [
         "#090b22",
         "#363636",
-        "#f7f7f7"
+        "#ffffff"
       ],
       "mode": "light"
     },
@@ -780,7 +774,7 @@
       "category": "B2B SaaS",
       "colors": [
         "#1d1e20",
-        "#ff4b33",
+        "#deff00",
         "#ffffff"
       ],
       "mode": "light"
@@ -834,7 +828,7 @@
       "category": "B2B SaaS",
       "colors": [
         "#000000",
-        "#50565b",
+        "#353c5f",
         "#ffffff"
       ],
       "mode": "light"
@@ -935,11 +929,11 @@
       "url": "https://www.headspace.com",
       "category": "Consumer",
       "colors": [
-        "#2d2c2b",
+        "#000000",
         "#0061ef",
-        "#ffce00",
         "#ffa1cc",
-        "#f9f4f2"
+        "#3b197f",
+        "#ffce00"
       ],
       "mode": "light"
     },
@@ -972,7 +966,7 @@
       "category": "Consumer",
       "colors": [
         "#000000",
-        "#181a1d",
+        "#df1c2f",
         "#f5f7f9"
       ],
       "mode": "light"
@@ -1055,24 +1049,13 @@
       "mode": "light"
     },
     {
-      "name": "Warby Parker",
-      "url": "https://www.warbyparker.com",
-      "category": "Commerce",
-      "colors": [
-        "#121212",
-        "#1050d0",
-        "#072369",
-        "#faf8f5"
-      ],
-      "mode": "light"
-    },
-    {
       "name": "Away",
       "url": "https://www.awaytravel.com",
       "category": "Commerce",
       "colors": [
-        "#111111",
-        "#000000",
+        "#151515",
+        "#d31b3b",
+        "#464518",
         "#ffffff"
       ],
       "mode": "light"
@@ -1083,8 +1066,8 @@
       "category": "Commerce",
       "colors": [
         "#151515",
-        "#012169",
-        "#3c619e",
+        "#526699",
+        "#132566",
         "#cb372a",
         "#ffffff"
       ],
@@ -1107,7 +1090,6 @@
       "category": "Commerce",
       "colors": [
         "#000000",
-        "#151515",
         "#f5f5f5"
       ],
       "mode": "light"
@@ -1219,22 +1201,23 @@
       "category": "Health",
       "colors": [
         "#191717",
-        "#1d3a44",
+        "#c8e3b1",
         "#f6f4ee"
       ],
       "mode": "light"
     }
   ],
   "previous": {
-    "scannedAt": "2026-10-26",
+    "scannedAt": "2026-11-02",
     "moods": {
-      "minimal": 0.3177570093457944,
-      "playful": 0.21495327102803738,
-      "trustworthy": 0.06542056074766354,
-      "bold": 0.2803738317757009,
-      "earthy": 0.056074766355140186,
-      "premium": 0.037383177570093455,
-      "romantic": 0.02803738317757009
+      "minimal": 0.3055555555555553,
+      "playful": 0.19444444444444436,
+      "trustworthy": 0.07407407407407407,
+      "bold": 0.27777777777777757,
+      "earthy": 0.06481481481481481,
+      "premium": 0.037037037037037035,
+      "calm": 0.027777777777777776,
+      "romantic": 0.018518518518518517
     }
   }
 }
