@@ -1,5 +1,5 @@
 {
-  "scannedAt": "2026-11-09",
+  "scannedAt": "2026-11-16",
   "sites": [
     {
       "name": "Linear",
@@ -61,10 +61,10 @@
       "url": "https://posthog.com",
       "category": "Developer tools",
       "colors": [
-        "#111111",
+        "#0f0f10",
         "#cd8407",
-        "#eb9d2a",
         "#b62ad9",
+        "#eb9d2a",
         "#eeefe9"
       ],
       "mode": "light"
@@ -212,7 +212,7 @@
       "url": "https://stripe.com",
       "category": "Fintech",
       "colors": [
-        "#061b31",
+        "#0d1738",
         "#533afd",
         "#81b81a",
         "#ffffff"
@@ -248,7 +248,7 @@
       "colors": [
         "#171721",
         "#5266eb",
-        "#f6f5f2"
+        "#ededf3"
       ],
       "mode": "dark"
     },
@@ -340,7 +340,7 @@
       "category": "Fintech",
       "colors": [
         "#1a1a1a",
-        "#656b6b",
+        "#000000",
         "#ffffff"
       ],
       "mode": "light"
@@ -396,6 +396,7 @@
       "colors": [
         "#101214",
         "#1868db",
+        "#ffab00",
         "#ffffff"
       ],
       "mode": "light"
@@ -603,16 +604,6 @@
       "mode": "light"
     },
     {
-      "name": "OpenAI",
-      "url": "https://openai.com",
-      "category": "AI",
-      "colors": [
-        "#000000",
-        "#ffffff"
-      ],
-      "mode": "light"
-    },
-    {
       "name": "Mistral AI",
       "url": "https://mistral.ai",
       "category": "AI",
@@ -651,7 +642,7 @@
       "category": "AI",
       "colors": [
         "#0c0c0c",
-        "#2b22fa",
+        "#1032cf",
         "#ffffff"
       ],
       "mode": "light"
@@ -719,7 +710,7 @@
       "category": "B2B SaaS",
       "colors": [
         "#000000",
-        "#000ce1",
+        "#0007cb",
         "#ffffff"
       ],
       "mode": "light"
@@ -774,7 +765,7 @@
       "category": "B2B SaaS",
       "colors": [
         "#1d1e20",
-        "#deff00",
+        "#ff4b33",
         "#ffffff"
       ],
       "mode": "light"
@@ -805,8 +796,8 @@
       "category": "B2B SaaS",
       "colors": [
         "#1d0254",
-        "#fd63fe",
         "#8039df",
+        "#fd63fe",
         "#ffffff"
       ],
       "mode": "light"
@@ -828,6 +819,7 @@
       "category": "B2B SaaS",
       "colors": [
         "#000000",
+        "#1e61f0",
         "#353c5f",
         "#ffffff"
       ],
@@ -838,8 +830,8 @@
       "url": "https://mixpanel.com",
       "category": "B2B SaaS",
       "colors": [
+        "#000000",
         "#1f2023",
-        "#96e6df",
         "#fafafa"
       ],
       "mode": "light"
@@ -896,7 +888,8 @@
       "url": "https://www.airbnb.com",
       "category": "Consumer",
       "colors": [
-        "#282828",
+        "#222222",
+        "#6c6c6c",
         "#ffffff"
       ],
       "mode": "light"
@@ -966,8 +959,8 @@
       "category": "Consumer",
       "colors": [
         "#000000",
-        "#df1c2f",
-        "#f5f7f9"
+        "#a50e1d",
+        "#ffffff"
       ],
       "mode": "light"
     },
@@ -1016,6 +1009,27 @@
       "mode": "dark"
     },
     {
+      "name": "Substack",
+      "url": "https://substack.com",
+      "category": "Consumer",
+      "colors": [
+        "#363737",
+        "#ff6719",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
+      "name": "Patreon",
+      "url": "https://www.patreon.com",
+      "category": "Consumer",
+      "colors": [
+        "#95adcb",
+        "#ffffff"
+      ],
+      "mode": "light"
+    },
+    {
       "name": "DoorDash",
       "url": "https://www.doordash.com",
       "category": "Consumer",
@@ -1053,9 +1067,9 @@
       "url": "https://www.awaytravel.com",
       "category": "Commerce",
       "colors": [
-        "#151515",
+        "#111111",
         "#d31b3b",
-        "#464518",
+        "#652d12",
         "#ffffff"
       ],
       "mode": "light"
@@ -1079,7 +1093,7 @@
       "category": "Commerce",
       "colors": [
         "#000000",
-        "#121212",
+        "#04314a",
         "#ffffff"
       ],
       "mode": "light"
@@ -1110,9 +1124,10 @@
       "url": "https://drinkolipop.com",
       "category": "Commerce",
       "colors": [
-        "#0d3b2e",
-        "#f92342",
-        "#8bd2d3",
+        "#0a3128",
+        "#034638",
+        "#b5f175",
+        "#e0003c",
         "#ffffff"
       ],
       "mode": "light"
@@ -1146,18 +1161,6 @@
       "colors": [
         "#67645e",
         "#acaaa5",
-        "#ffffff"
-      ],
-      "mode": "light"
-    },
-    {
-      "name": "Hims & Hers",
-      "url": "https://www.hims.com",
-      "category": "Health",
-      "colors": [
-        "#000000",
-        "#ffc671",
-        "#8a4242",
         "#ffffff"
       ],
       "mode": "light"
@@ -1201,6 +1204,7 @@
       "category": "Health",
       "colors": [
         "#191717",
+        "#05727a",
         "#c8e3b1",
         "#f6f4ee"
       ],
@@ -1208,16 +1212,16 @@
     }
   ],
   "previous": {
-    "scannedAt": "2026-11-02",
+    "scannedAt": "2026-11-09",
     "moods": {
-      "minimal": 0.3055555555555553,
-      "playful": 0.19444444444444436,
-      "trustworthy": 0.07407407407407407,
-      "bold": 0.27777777777777757,
-      "earthy": 0.06481481481481481,
-      "premium": 0.037037037037037035,
-      "calm": 0.027777777777777776,
-      "romantic": 0.018518518518518517
+      "minimal": 0.29906542056074764,
+      "playful": 0.22429906542056074,
+      "trustworthy": 0.056074766355140186,
+      "bold": 0.2803738317757009,
+      "earthy": 0.056074766355140186,
+      "premium": 0.02803738317757009,
+      "romantic": 0.018691588785046728,
+      "calm": 0.037383177570093455
     }
   }
 }
